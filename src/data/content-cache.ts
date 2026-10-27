@@ -1,4 +1,4 @@
-import type { Hymn } from './hymnal-types';
+import type { Hymn } from '../../shared/hymnal-types';
 import { storage } from './storage';
 
 // Content edited on the website, as last downloaded. Kept on the device so the

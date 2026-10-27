@@ -1,4 +1,4 @@
-// Hymn content types, shared by the app and the content website (no React Native imports).
+// Hymn content types, shared by the app and the content website (admin/). No React Native imports.
 export type LyricLine = {
   text: string;
   repeat?: number;

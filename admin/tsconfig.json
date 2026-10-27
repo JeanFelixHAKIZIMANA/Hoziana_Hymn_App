@@ -11,5 +11,5 @@
     "allowImportingTsExtensions": true,
     "types": ["vite/client"]
   },
-  "include": ["src", "../src/data/hymn-text.ts", "../src/data/hymnal-types.ts"]
+  "include": ["src", "../shared"]
 }

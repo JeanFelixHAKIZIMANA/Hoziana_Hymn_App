@@ -32,6 +32,7 @@ Store builds are made in the cloud with EAS (`npx eas-cli@latest build`), so no 
 | `src/i18n/` | Interface text. English now; Kinyarwanda is planned for version 2 |
 | `scripts/` | The hymnal converter, the database seed builder and the icon generator |
 | `admin/` | The content website for choir editors (Vite + React) |
+| `shared/` | Hymn types and the lyrics text format, used by both the app and the website |
 | `supabase/` | Database tables, access rules and the starting data |
 | `design/` | Source tokens and the latest hymnal conversion report |
 

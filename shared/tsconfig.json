@@ -1,0 +1,13 @@
+{
+  // Code shared by the app and the content website (admin/). Standalone on purpose:
+  // the website is built without the app's packages, so this must not extend expo's config.
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true
+  },
+  "include": ["*.ts"]
+}

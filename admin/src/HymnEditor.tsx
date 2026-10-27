@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { stanzasToText, textToStanzas } from '../../src/data/hymn-text';
+import { stanzasToText, textToStanzas } from '../../shared/hymn-text';
 import { Preview } from './Preview';
 import { supabase, type HymnRow } from './supabase';
 
