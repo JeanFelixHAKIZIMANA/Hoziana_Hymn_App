@@ -15,7 +15,7 @@
     "android": {
       "package": "rw.hoziana.hymnal",
       "adaptiveIcon": {
-        "backgroundColor": "#141312",
+        "backgroundColor": "#34479A",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
