@@ -1,7 +1,7 @@
 // Checks that every hymn survives a round trip through the website's text format.
 // Run: node --experimental-strip-types scripts/check-hymn-text.mjs
 import { readFileSync } from 'node:fs';
-import { stanzasToText, textToStanzas } from '../src/data/hymn-text.ts';
+import { stanzasToText, textToStanzas } from '../shared/hymn-text.ts';
 
 const { hymns } = JSON.parse(readFileSync(new URL('../src/data/hymns.json', import.meta.url), 'utf8'));
 const strip = (stanzas) => stanzas.map(({ inferred, ...s }) => s);

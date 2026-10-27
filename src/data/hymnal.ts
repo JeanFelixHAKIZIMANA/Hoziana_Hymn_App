@@ -1,9 +1,9 @@
 import book from './hymns.json';
 
 import { readCache } from './content-cache';
-import type { Hymn, Stanza } from './hymnal-types';
+import type { Hymn, Stanza } from '../../shared/hymnal-types';
 
-export type { Hymn, LyricLine, Stanza } from './hymnal-types';
+export type { Hymn, LyricLine, Stanza } from '../../shared/hymnal-types';
 
 // hymns.json is produced by scripts/parse_hymnal.py from the choir's book.
 

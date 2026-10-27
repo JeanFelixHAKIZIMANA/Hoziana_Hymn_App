@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 
-import type { Stanza } from '../../src/data/hymnal-types';
+import type { Stanza } from '../../shared/hymnal-types';
 
 export const configured = Boolean(import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY);
 

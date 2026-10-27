@@ -2,7 +2,7 @@ import { useSyncExternalStore } from 'react';
 
 import { readCache, writeCache, type ContentCache, type Page } from './content-cache';
 import { applyContent } from './hymnal';
-import type { Hymn, Stanza } from './hymnal-types';
+import type { Hymn, Stanza } from '../../shared/hymnal-types';
 
 // Downloads edits made on the content website (Supabase) and keeps them on the
 // device. Without EXPO_PUBLIC_SUPABASE_URL / EXPO_PUBLIC_SUPABASE_ANON_KEY the

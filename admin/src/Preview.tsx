@@ -1,4 +1,4 @@
-import type { Stanza } from '../../src/data/hymnal-types';
+import type { Stanza } from '../../shared/hymnal-types';
 
 // A close copy of the app's reader, so editors can see spacing and parts as phones will.
 export function Preview({ title, stanzas }: { title: string; stanzas: Stanza[] }) {
