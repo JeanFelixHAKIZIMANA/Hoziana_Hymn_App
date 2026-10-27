@@ -1,42 +1,14 @@
 import book from './hymns.json';
 
-// hymns.json is produced by scripts/parse_hymnal.py from the choir's book.
-export type LyricLine = {
-  text: string;
-  repeat?: number;
-  part?: string;
-  // Starts a new section inside the stanza (e.g. where a Gore/Bose exchange begins).
-  gap?: boolean;
-  // A cue printed in the book, such as "Inyikirizo:" (sing the refrain here).
-  heading?: 'refrain';
-};
+import { readCache } from './content-cache';
+import type { Hymn, Stanza } from './hymnal-types';
 
-export type Stanza = {
-  // 'spoken' is a reading ("Ijambo:") between sung parts.
-  type: 'verse' | 'refrain' | 'spoken';
-  number?: number;
-  lines: LyricLine[];
-  inferred?: boolean;
-  // The rest of a verse or refrain after a spoken passage.
-  continued?: boolean;
-};
+export type { Hymn, LyricLine, Stanza } from './hymnal-types';
+
+// hymns.json is produced by scripts/parse_hymnal.py from the choir's book.
 
 // Stanzas the reader offers as verse chips: not spoken passages or continuations.
 export const isNavigable = (s: Stanza) => s.type !== 'spoken' && !s.continued;
-
-export type Hymn = {
-  number: number;
-  title: string;
-  titleUpper: string;
-  key: string | null;
-  scripture: string | null;
-  volume: string | null;
-  volumeYear: number | null;
-  stanzas: Stanza[];
-  credit: string | null;
-  author: string | null;
-  year: number | null;
-};
 
 export type Playlist = {
   id: string;
@@ -45,20 +17,31 @@ export type Playlist = {
   hymns: Hymn[];
 };
 
-export const hymns = book.hymns as Hymn[];
-
-const byNumber = new Map(hymns.map((h) => [h.number, h]));
+// The book as shipped, overlaid with edits made on the content website (see content.ts).
+// Arrays are updated in place so modules holding them see new content.
+export const hymns: Hymn[] = [];
+export const playlists: Playlist[] = [];
+let byNumber = new Map<number, Hymn>();
 
 export function getHymn(number: number): Hymn | undefined {
   return byNumber.get(number);
 }
 
 export function neighbours(number: number) {
-  return { previous: byNumber.get(number - 1), next: byNumber.get(number + 1) };
+  const i = hymns.findIndex((h) => h.number === number);
+  return { previous: i > 0 ? hymns[i - 1] : undefined, next: i >= 0 ? hymns[i + 1] : undefined };
 }
 
-// The book has no themes, so version 1 offers one playlist per volume.
-export const playlists: Playlist[] = (() => {
+export function applyContent(edited: Record<number, Hymn | null>) {
+  const merged = new Map((book.hymns as Hymn[]).map((h) => [h.number, h]));
+  for (const [number, h] of Object.entries(edited)) {
+    if (h) merged.set(Number(number), h);
+    else merged.delete(Number(number)); // hidden on the website
+  }
+  hymns.splice(0, hymns.length, ...[...merged.values()].sort((a, b) => a.number - b.number));
+  byNumber = new Map(hymns.map((h) => [h.number, h]));
+
+  // The book has no themes, so version 1 offers one playlist per volume.
   const map = new Map<string, Playlist>();
   for (const h of hymns) {
     const label = h.volume ?? '?';
@@ -69,8 +52,14 @@ export const playlists: Playlist[] = (() => {
     }
     p.hymns.push(h);
   }
-  return [...map.values()];
-})();
+  playlists.splice(0, playlists.length, ...map.values());
+
+  index = hymns.map((hymn) => ({
+    hymn,
+    title: fold(hymn.title),
+    lines: hymn.stanzas.flatMap((s) => s.lines.map((l) => ({ text: l.text, folded: fold(l.text) }))),
+  }));
+}
 
 export function getPlaylist(id: string): Playlist | undefined {
   return playlists.find((p) => p.id === id);
@@ -97,11 +86,7 @@ const fold = (s: string) =>
 
 type Indexed = { hymn: Hymn; title: string; lines: { text: string; folded: string }[] };
 
-const index: Indexed[] = hymns.map((hymn) => ({
-  hymn,
-  title: fold(hymn.title),
-  lines: hymn.stanzas.flatMap((s) => s.lines.map((l) => ({ text: l.text, folded: fold(l.text) }))),
-}));
+let index: Indexed[] = [];
 
 export type LyricMatch = { hymn: Hymn; line: string };
 
@@ -130,3 +115,5 @@ export function searchHymns(query: string, within?: Playlist) {
 
   return { titles, lyrics };
 }
+
+applyContent(readCache().hymns);

@@ -25,16 +25,20 @@ Store builds are made in the cloud with EAS (`npx eas-cli@latest build`), so no 
 | --- | --- |
 | `src/app/` | Screens, one file per route (Expo Router) |
 | `src/design-system/` | Tokens, text styles, icons and the components from the Figma file |
-| `src/data/hymns.json` | The hymnal, generated from the book |
+| `src/data/hymns.json` | The hymnal as shipped in the app, generated from the book |
+| `src/data/content.ts` | Downloads edits from the content website and keeps them on the device |
 | `src/data/hymnal.ts` | Hymn lookup, volumes (used as playlists) and search |
 | `src/data/user-store.ts` | Favorites, recent hymns, reading position and settings, stored on the device |
 | `src/i18n/` | Interface text. English now; Kinyarwanda is planned for version 2 |
-| `scripts/` | The hymnal converter and the icon generator |
+| `scripts/` | The hymnal converter, the database seed builder and the icon generator |
+| `admin/` | The content website for choir editors (Vite + React) |
+| `supabase/` | Database tables, access rules and the starting data |
 | `design/` | Source tokens and the latest hymnal conversion report |
 
 ## Updating content
 
-- **Hymns**: export the book's text and run `python3 -I scripts/parse_hymnal.py <book.txt> src/data/hymns.json design/hymnal-conversion-report.md`. The report lists hymns that need a human check (mostly where the refrain starts).
+- **Hymns and the About page**: edited on the content website. Setup is in [docs/content-website.md](docs/content-website.md).
+- **First import from the book**: export the book's text and run `python3 -I scripts/parse_hymnal.py <book.txt> src/data/hymns.json design/hymnal-conversion-report.md`. The report lists hymns that need a human check (mostly where the refrain starts).
 - **Icons**: put Figma SVG exports in `assets/icons/` and run `npm run build:icons`.
 
 ## Checks
@@ -42,5 +46,6 @@ Store builds are made in the cloud with EAS (`npx eas-cli@latest build`), so no 
 ```bash
 npm run typecheck
 npx eslint .
+npm run check:hymn-text   # every hymn survives the website's text format
 ```
 Igitabo cy'indirimbo za chorale Hoziana
