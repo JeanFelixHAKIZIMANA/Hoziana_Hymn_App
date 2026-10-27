@@ -43,3 +43,4 @@ Store builds are made in the cloud with EAS (`npx eas-cli@latest build`), so no 
 npm run typecheck
 npx eslint .
 ```
+Igitabo cy'indirimbo za chorale Hoziana
