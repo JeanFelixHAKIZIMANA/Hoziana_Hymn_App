@@ -12,7 +12,7 @@ import {
   type ScrollViewInstance,
 } from 'react-native';
 
-import { getHymn, neighbours, playlistOf, type Hymn } from '@/data/hymnal';
+import { getHymn, isNavigable, neighbours, playlistOf, verseCount, type Hymn } from '@/data/hymnal';
 import { userActions, useUserState } from '@/data/user-store';
 import {
   IconButton,
@@ -22,6 +22,7 @@ import {
   Text,
   TextSettingsSheet,
   VerseBlock,
+  lyricLineHeight,
   type VerseChipItem,
 } from '@/design-system';
 import { t } from '@/i18n';
@@ -40,6 +41,7 @@ function Reader({ hymn, from }: { hymn: Hymn; from?: string }) {
   const settings = useUserState((s) => s.settings);
   const favorite = useUserState((s) => s.favorites.includes(hymn.number));
   const [sheetOpen, setSheetOpen] = useState(false);
+  // Index of the stanza at the top of the screen.
   const [current, setCurrent] = useState(0);
   const scroll = useRef<ScrollViewInstance>(null);
   const offsets = useRef<number[]>([]);
@@ -49,16 +51,17 @@ function Reader({ hymn, from }: { hymn: Hymn; from?: string }) {
   const { previous, next } = neighbours(hymn.number);
   const backLabel = from ?? t.reader.back;
 
-  const chips: VerseChipItem[] = useMemo(
-    () =>
-      hymn.stanzas.map((s, i) =>
-        s.type === 'refrain'
-          ? { key: `r${i}`, label: 'R', a11y: t.reader.refrain }
-          : { key: `v${i}`, label: String(s.number), a11y: t.reader.verse(s.number ?? i + 1) },
-      ),
-    [hymn],
-  );
-  const verseTotal = hymn.stanzas.filter((s) => s.type === 'verse').length;
+  // One chip per verse or refrain; spoken passages and continuations belong to the chip before them.
+  const chipStanzas = useMemo(() => hymn.stanzas.flatMap((s, i) => (isNavigable(s) ? [i] : [])), [hymn]);
+  const chips: VerseChipItem[] = chipStanzas.map((i) => {
+    const s = hymn.stanzas[i];
+    return s.type === 'refrain'
+      ? { key: `r${i}`, label: 'R', a11y: t.reader.refrain }
+      : { key: `v${i}`, label: String(s.number), a11y: t.reader.verse(s.number ?? i + 1) };
+  });
+  const currentChip = Math.max(0, chipStanzas.findLastIndex((i) => i <= current));
+  const verseTotal = verseCount(hymn);
+  const lineHeight = lyricLineHeight(settings.lyricSize);
 
   useEffect(() => {
     userActions.opened(hymn.number);
@@ -66,8 +69,7 @@ function Reader({ hymn, from }: { hymn: Hymn; from?: string }) {
 
   useEffect(() => {
     // "Continue" on Home remembers the last verse reached.
-    const stanza = hymn.stanzas[current];
-    const verse = stanza?.type === 'verse' ? (stanza.number ?? 1) : hymn.stanzas.slice(0, current).filter((s) => s.type === 'verse').length || 1;
+    const verse = hymn.stanzas.slice(0, current + 1).filter((s) => s.type === 'verse' && !s.continued).length || 1;
     userActions.setPosition({ number: hymn.number, verse, total: verseTotal });
   }, [current, hymn, verseTotal]);
 
@@ -159,7 +161,8 @@ function Reader({ hymn, from }: { hymn: Hymn; from?: string }) {
           </View>
         ) : null}
 
-        <View style={{ paddingTop: 28, gap: 28 }} onLayout={(e) => (versesTop.current = e.nativeEvent.layout.y)}>
+        {/* One blank line between stanzas, at whatever size the lyrics are set. */}
+        <View style={{ paddingTop: 28, gap: lineHeight }} onLayout={(e) => (versesTop.current = e.nativeEvent.layout.y)}>
           {hymn.stanzas.map((stanza, i) => (
             <View key={i} onLayout={(e) => (offsets.current[i] = e.nativeEvent.layout.y)}>
               <VerseBlock
@@ -173,8 +176,9 @@ function Reader({ hymn, from }: { hymn: Hymn; from?: string }) {
 
       <ReaderBar
         chips={chips}
-        current={current}
-        onChip={(i) => {
+        current={currentChip}
+        onChip={(chip) => {
+          const i = chipStanzas[chip];
           setCurrent(i);
           scroll.current?.scrollTo({ y: versesTop.current + (offsets.current[i] ?? 0) - 12, animated: true });
         }}
