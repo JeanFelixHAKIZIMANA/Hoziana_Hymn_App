@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
-import type { ReactNode } from 'react';
-import { Pressable, ScrollView, StyleSheet, Switch, TextInput, View, type TextStyle } from 'react-native';
+import { useEffect, useState, type ReactNode } from 'react';
+import { Animated, Pressable, ScrollView, StyleSheet, TextInput, View, type TextStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import type { IconName } from '../icons.generated';
@@ -188,14 +188,7 @@ export function SettingsRow(props: SettingsRowProps) {
         <Text variant="row" style={{ flex: 1 }}>
           {props.label}
         </Text>
-        <Switch
-          value={props.toggle}
-          onValueChange={props.onToggle}
-          trackColor={{ true: colors.accent, false: colors.switchOff }}
-          thumbColor="#FFFFFF"
-          ios_backgroundColor={colors.switchOff}
-          accessibilityLabel={props.label}
-        />
+        <Toggle value={props.toggle} onChange={props.onToggle} label={props.label} />
       </View>
     );
   }
@@ -219,6 +212,42 @@ export function SettingsRow(props: SettingsRowProps) {
   );
 }
 
+const TRACK = { width: 51, height: 31 };
+const THUMB = 27;
+
+// Drawn by hand rather than the native Switch: the native one changes size between
+// iOS versions (iOS 26 draws it larger than it reports), which pushed it off centre.
+export function Toggle({ value, onChange, label }: { value: boolean; onChange: (on: boolean) => void; label: string }) {
+  const { colors } = useTheme();
+  const [progress] = useState(() => new Animated.Value(value ? 1 : 0));
+  useEffect(() => {
+    Animated.timing(progress, { toValue: value ? 1 : 0, duration: 180, useNativeDriver: false }).start();
+  }, [value, progress]);
+  return (
+    <Pressable
+      onPress={() => onChange(!value)}
+      accessibilityRole="switch"
+      accessibilityLabel={label}
+      accessibilityState={{ checked: value }}
+      hitSlop={8}
+    >
+      <Animated.View
+        style={[
+          styles.track,
+          { backgroundColor: progress.interpolate({ inputRange: [0, 1], outputRange: [colors.switchOff, colors.accent] }) },
+        ]}
+      >
+        <Animated.View
+          style={[
+            styles.thumb,
+            { transform: [{ translateX: progress.interpolate({ inputRange: [0, 1], outputRange: [0, TRACK.width - THUMB - 4] }) }] },
+          ]}
+        />
+      </Animated.View>
+    </Pressable>
+  );
+}
+
 const styles = StyleSheet.create({
   segmented: { flexDirection: 'row', padding: 3 },
   segment: { flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: radius.pill, paddingHorizontal: 12 },
@@ -227,5 +256,13 @@ const styles = StyleSheet.create({
   navHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 8, minHeight: 44 },
   back: { flexDirection: 'row', alignItems: 'center', gap: 2, minHeight: 44, paddingLeft: 4, paddingRight: 8, flexShrink: 1 },
   settingsRow: { flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 52 },
+  track: { ...TRACK, borderRadius: radius.pill, padding: 2, justifyContent: 'center' },
+  thumb: {
+    width: THUMB,
+    height: THUMB,
+    borderRadius: radius.pill,
+    backgroundColor: '#FFFFFF',
+    boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.18)',
+  },
   trailing: { flexDirection: 'row', alignItems: 'center', gap: 4, minHeight: 44 },
 });

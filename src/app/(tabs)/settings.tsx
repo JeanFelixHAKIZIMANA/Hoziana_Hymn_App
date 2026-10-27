@@ -2,7 +2,7 @@ import Constants from 'expo-constants';
 import { Alert, ScrollView, Share } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { userActions, useUserState, type ThemePreference } from '@/data/user-store';
+import { userActions, useUserState } from '@/data/user-store';
 import {
   Screen,
   ScreenTitleBlock,
@@ -11,16 +11,15 @@ import {
   TAB_BAR_CLEARANCE,
   Text,
   lyricSizes,
+  useTheme,
 } from '@/design-system';
 import { t } from '@/i18n';
-
-const themeOrder: ThemePreference[] = ['auto', 'light', 'dark'];
-const themeLabel = { auto: t.settings.themeAuto, light: t.textSheet.light, dark: t.textSheet.dark };
 
 export default function Settings() {
   const insets = useSafeAreaInsets();
   const settings = useUserState((s) => s.settings);
   const set = userActions.setSetting;
+  const { scheme } = useTheme();
 
   const nextSize = () => {
     const i = lyricSizes.indexOf(settings.lyricSize);
@@ -48,9 +47,14 @@ export default function Settings() {
         <SettingsGroup label={t.settings.appearance}>
           <SettingsRow
             first
-            label={t.settings.theme}
-            value={themeLabel[settings.theme]}
-            onPress={() => set('theme', themeOrder[(themeOrder.indexOf(settings.theme) + 1) % themeOrder.length])}
+            label={t.settings.darkMode}
+            toggle={scheme === 'dark'}
+            onToggle={(on) => set('theme', on ? 'dark' : 'light')}
+          />
+          <SettingsRow
+            label={t.settings.matchDevice}
+            toggle={settings.theme === 'auto'}
+            onToggle={(on) => set('theme', on ? 'auto' : scheme)}
           />
           <SettingsRow label={t.settings.language} value={t.settings.languageValue} />
         </SettingsGroup>
