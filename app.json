@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "Hoziana",
+    "slug": "hoziana",
+    "scheme": "hoziana",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "backgroundColor": "#F8F6F1",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "rw.hoziana.hymnal"
+    },
+    "android": {
+      "package": "rw.hoziana.hymnal",
+      "adaptiveIcon": {
+        "backgroundColor": "#F8F6F1",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#F8F6F1",
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 120,
+          "dark": { "backgroundColor": "#141312" }
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
