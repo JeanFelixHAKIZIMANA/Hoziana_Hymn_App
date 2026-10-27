@@ -45,7 +45,8 @@ const toHymn = (r: HymnRow): Hymn => ({
 });
 
 async function get<T>(path: string): Promise<T> {
-  const res = await fetch(`${url}/rest/v1/${path}`, { headers: { apikey: anonKey!, Authorization: `Bearer ${anonKey}` } });
+  // A publishable key goes in the apikey header only (it is not a JWT).
+  const res = await fetch(`${url}/rest/v1/${path}`, { headers: { apikey: anonKey! } });
   if (!res.ok) throw new Error(`${res.status} ${path}`);
   return res.json() as Promise<T>;
 }

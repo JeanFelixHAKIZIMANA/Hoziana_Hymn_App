@@ -35,17 +35,14 @@ To remove an editor, delete the row from `editors` (Table Editor) or delete the 
 
 ## 3. Connect the app
 
-In Supabase, open **Project Settings → API** (or **API Keys**) and copy the
-**Project URL** and the **anon / publishable** key. Then, in the repo root:
+The app and the website read the project URL and its **publishable** key from
+`.env` (app) and `admin/.env` (website). Both are already filled in for the
+Hoziana project (`iellhbnzlofqbjqdsmro`). For a different project, copy the values
+from **Project Settings → API Keys** into both files.
 
-```bash
-cp .env.example .env
-# edit .env and paste the two values
-npx expo start --tunnel
-```
-
-The anon key is meant to be public: the rules in `schema.sql` only let signed-in
-editors change anything. Commit `.env` so EAS builds pick it up too.
+The publishable key is meant to be public: the rules in `schema.sql` only let
+signed-in editors change anything. Never put the secret (service role) key in
+either file. `.env` is committed so EAS builds pick it up too.
 
 ## 4. Run the website
 
@@ -54,13 +51,11 @@ On your laptop:
 ```bash
 cd admin
 npm install
-cp .env.example .env.local   # paste the same two values, with VITE_ names
 npm run dev                  # opens on http://localhost:5173
 ```
 
 To put it online, in Vercel: **Add New → Project**, import the GitHub repo, set
-**Root Directory** to `admin`, add the environment variables `VITE_SUPABASE_URL`
-and `VITE_SUPABASE_ANON_KEY`, and deploy. Every push to `main` redeploys it.
+**Root Directory** to `admin`, and deploy (it reads `admin/.env`). Every push to `main` redeploys it.
 
 ## Editing lyrics
 
