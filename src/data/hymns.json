@@ -883,7 +883,8 @@
       },
       {
        "text": "Ibyaha byanjye",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Intimba zacu,",
@@ -1089,7 +1090,8 @@
        "part": "Bose"
       },
       {
-       "text": "Gose: Rw’Umwana w’Intama"
+       "text": "Rw’Umwana w’Intama",
+       "part": "Gore"
       },
       {
        "text": "N’Umukiza",
@@ -1144,7 +1146,9 @@
        "text": "Nzasiga umugabo n’abana nzamukane n’abera"
       },
       {
-       "text": "Inyikirizo: Ningera mu ijuru......"
+       "text": "Ningera mu ijuru…",
+       "heading": "refrain",
+       "gap": true
       },
       {
        "text": "Tuzahanagurwa amarira yose"
@@ -1178,9 +1182,6 @@
       {
        "text": "Kuliko kuipenda dunia ya majuto",
        "repeat": 2
-      },
-      {
-       "text": "Mke: Mwokozi aniita"
       }
      ]
     },
@@ -1188,52 +1189,72 @@
      "type": "refrain",
      "lines": [
       {
-       "text": "Mume: Mwanangu"
+       "text": "Mwokozi aniita",
+       "part": "Mke"
       },
       {
-       "text": "Mke: Mwokozi aniita"
+       "text": "Mwanangu",
+       "part": "Mume"
       },
       {
-       "text": "Mume: Mwanangu"
+       "text": "Mwokozi aniita",
+       "part": "Mke"
       },
       {
-       "text": "Mke: Kimbia sana"
+       "text": "Mwanangu",
+       "part": "Mume"
       },
       {
-       "text": "Mume: Ufike"
+       "text": "Kimbia sana",
+       "part": "Mke"
       },
       {
-       "text": "Mke: Rahani mwangu"
+       "text": "Ufike",
+       "part": "Mume"
       },
       {
-       "text": "Mume: Oooh"
+       "text": "Rahani mwangu",
+       "part": "Mke"
       },
       {
-       "text": "Wote: Nakwenda kwake Yesu"
+       "text": "Oooh",
+       "part": "Mume"
       },
       {
-       "text": "Mume: Nakwenda"
+       "text": "Nakwenda kwake Yesu",
+       "part": "Wote"
       },
       {
-       "text": "Mke: Nikaone uzima"
+       "text": "Nakwenda",
+       "part": "Mume"
       },
       {
-       "text": "Mume: Mbinguni"
+       "text": "Nikaone uzima",
+       "part": "Mke"
       },
       {
-       "text": "Mke: Mala,"
+       "text": "Mbinguni",
+       "part": "Mume"
       },
       {
-       "text": "Mume: Yika wanamwimbia"
+       "text": "Mala,",
+       "part": "Mke"
       },
       {
-       "text": "Mke: Mungu,"
+       "text": "Yika wanamwimbia",
+       "part": "Mume"
       },
       {
-       "text": "Mume: Haleluya /4 amena"
+       "text": "Mungu,",
+       "part": "Mke"
       },
       {
-       "text": "Wote: Na mimi kaimbe haleluya aaaa,"
+       "text": "Haleluya /4 amena",
+       "part": "Mume"
+      },
+      {
+       "text": "Na mimi kaimbe haleluya aaaa,",
+       "part": "Wote"
       },
       {
        "text": "Na mimi kaimbe haleluya aaaa"
@@ -1492,7 +1513,8 @@
       },
       {
        "text": "Yorodani iyi ihorera nzayambuka mu kwizera",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Maze nimfata hakurya nzahimbaza Umwami Yesu",
@@ -1604,10 +1626,6 @@
       },
       {
        "text": "Akurikiranye abizeye Yesu, kuko ari we wamunesheje"
-      },
-      {
-       "text": "Umva yewe mukristo",
-       "part": "Gore"
       }
      ]
     },
@@ -1616,6 +1634,10 @@
      "lines": [
       {
        "text": "Umva yewe mukristo",
+       "part": "Gore"
+      },
+      {
+       "text": "Umva yewe mukristo",
        "part": "Bose"
       },
       {
@@ -1651,7 +1673,8 @@
        "part": "Bose"
       },
       {
-       "text": "Satani yarahagurutse,"
+       "text": "Satani yarahagurutse,",
+       "gap": true
       },
       {
        "text": "Afite umujinya nk’uw’intare"
@@ -2078,7 +2101,6 @@
    "stanzas": [
     {
      "type": "verse",
-     "number": 1,
      "lines": [
       {
        "text": "Yesu ubwo yazaga mu isi, yazanye ubutumwa bwiza",
@@ -2137,7 +2159,8 @@
        "text": "Dore ifeza n’izahabu ntabyo, icyo dufite turakiguha",
        "part": "Gabo"
       }
-     ]
+     ],
+     "number": 1
     }
    ],
    "credit": "Yahimbwe na Pasitori RUSHEMA Efraim, 1961 - , Yayihimbye mu mwaka w’ 1981",
@@ -2776,7 +2799,8 @@
       },
       {
        "text": "Bwanjye",
-       "part": "Basse"
+       "part": "Basse",
+       "gap": true
       },
       {
        "text": "Mukiza",
@@ -2839,7 +2863,8 @@
       },
       {
        "text": "Ryera,",
-       "part": "Basse"
+       "part": "Basse",
+       "gap": true
       },
       {
        "text": "Mukiza.",
@@ -2865,7 +2890,8 @@
       },
       {
        "text": "Rero",
-       "part": "Basse"
+       "part": "Basse",
+       "gap": true
       },
       {
        "text": "Mwisunge",
@@ -3067,7 +3093,6 @@
    "stanzas": [
     {
      "type": "verse",
-     "number": 1,
      "lines": [
       {
        "text": "Emmanuel! Emmanuel! Ni We Emmanuel",
@@ -3081,7 +3106,8 @@
        "part": "Bose"
       },
       {
-       "text": "Imana muri twe yitwa Emmanuel"
+       "text": "Imana muri twe yitwa Emmanuel",
+       "gap": true
       },
       {
        "text": "Mu ijuru icyubahiro kibe icy’Umwami Imana"
@@ -3123,7 +3149,8 @@
       },
       {
        "text": "Kunesha kwawe kuri he ?",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Imbaraga zawe zirihe ?"
@@ -3142,7 +3169,8 @@
        "part": "Bose"
       },
       {
-       "text": "Imana muri twe yitwa Emmanuel"
+       "text": "Imana muri twe yitwa Emmanuel",
+       "gap": true
       },
       {
        "text": "Kunesha kwawe kuri he ?"
@@ -3161,7 +3189,8 @@
       },
       {
        "text": "Turakuramya Mukiza",
-       "part": "Bose"
+       "part": "Bose",
+       "gap": true
       },
       {
        "text": "Wavukiye i Betelehemu"
@@ -3192,7 +3221,8 @@
        "part": "Bose"
       },
       {
-       "text": "Ni we mu-cunguzi ubabarira ibyaha"
+       "text": "Ni we mu-cunguzi ubabarira ibyaha",
+       "gap": true
       },
       {
        "text": "Azaba –umucyo- uvira amahanga"
@@ -3206,7 +3236,8 @@
       {
        "text": "N’ubwo wababajwe ukiri umwana muto ariko waranesheje"
       }
-     ]
+     ],
+     "number": 1
     }
    ],
    "credit": "Yanditswe na Pasitori RUSHEMA E, 1961 - , yatangije ijwi ryindi ndir. mu mwaka w’ 1983",
@@ -3309,11 +3340,8 @@
    "volumeYear": 1989,
    "stanzas": [
     {
-     "type": "refrain",
+     "type": "spoken",
      "lines": [
-      {
-       "text": "Ijambo:"
-      },
       {
        "text": "Ubutumwa bwiza buvuga ngo: “Yesu Kristo"
       },
@@ -3322,7 +3350,12 @@
       },
       {
        "text": "Icyakora yari yarapfuye ariko none dore ahoraho iteka”"
-      },
+      }
+     ]
+    },
+    {
+     "type": "refrain",
+     "lines": [
       {
        "text": "Yesu ni igisubizo cy’isi ya none"
       },
@@ -3505,7 +3538,8 @@
       },
       {
        "text": "Ririmba indirimbo ya Mose",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Bagenda baririmba",
@@ -4042,7 +4076,8 @@
       },
       {
        "text": "Ibiganza by’amaboko yanjye abayuda nibo babitoboye",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Ibikomere byo ku mubiri wanjye nabyo nibo babishyizeho"
@@ -4068,14 +4103,10 @@
       {
        "text": "Amena",
        "part": "Basse"
-      }
-     ]
-    },
-    {
-     "type": "refrain",
-     "lines": [
+      },
       {
-       "text": "Kuko Imana itatumye Umwana wayo mu isi"
+       "text": "Kuko Imana itatumye Umwana wayo mu isi",
+       "gap": true
       },
       {
        "text": "Gucira gucira abari mu isi ho iteka"
@@ -4088,12 +4119,12 @@
       },
       {
        "text": "Huuuuuuu, huuuuuu, huuuuuuu, huuuuuuuu"
-      },
-      {
-       "text": "Ijambo:"
       }
-     ],
-     "inferred": true
+     ]
+    },
+    {
+     "type": "spoken",
+     "lines": []
     },
     {
      "type": "verse",
@@ -4116,7 +4147,8 @@
       },
       {
        "text": "Amaboko atentebutse, nyabuneka muyakomeze",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Mukomeze amavi asukuma ahagarare neza yeme eeh"
@@ -4398,7 +4430,8 @@
       },
       {
        "text": "Mbese bizaba bite eh tugeze imbere yawe",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Abagukunda twese",
@@ -4441,7 +4474,8 @@
       },
       {
        "text": "Yesu mwana w’Imana nanjye wanyanditsemo",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       }
      ]
     },
@@ -4463,7 +4497,8 @@
       },
       {
        "text": "Arazana n’ibicu na none amen Amen",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       }
      ]
     }
@@ -4600,7 +4635,8 @@
        "part": "Bose"
       },
       {
-       "text": "Yesu mwana w’Imana"
+       "text": "Yesu mwana w’Imana",
+       "gap": true
       },
       {
        "text": "Wifuzw’ibihe byose,"
@@ -4619,7 +4655,8 @@
       },
       {
        "text": "Warazutse,",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Warazutse,"
@@ -4687,7 +4724,8 @@
       },
       {
        "text": "Warasezeranye ngo dusabe tuzahabwa,",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Ngo nidukomange tuzakingurirwa."
@@ -4722,7 +4760,8 @@
        "part": "Bose"
       },
       {
-       "text": "Wohereze Umucyo wawe"
+       "text": "Wohereze Umucyo wawe",
+       "gap": true
       },
       {
        "text": "Wohereze Umwuka wawe"
@@ -4754,7 +4793,6 @@
    "stanzas": [
     {
      "type": "verse",
-     "number": 1,
      "lines": [
       {
        "text": "Hashimwe Imana",
@@ -4779,7 +4817,8 @@
        "part": "Bose"
       },
       {
-       "text": "Isi n’ijuru biguhimbaze"
+       "text": "Isi n’ijuru biguhimbaze",
+       "gap": true
       },
       {
        "text": "Ni wowe Mwami wenyine",
@@ -4800,7 +4839,8 @@
       },
       {
        "text": "Byari kuzatugendekera bite ?",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Iyo utaza kuba mu ruhande rwacu !",
@@ -4815,7 +4855,8 @@
        "part": "Bose"
       },
       {
-       "text": "Reba nawe uko imbuto zose zakuze"
+       "text": "Reba nawe uko imbuto zose zakuze",
+       "gap": true
       },
       {
        "text": "Amahundo menshi yuzuye mu murima"
@@ -4828,7 +4869,8 @@
       },
       {
        "text": "Umwuka w’Imana yabaye mu bakozi",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Bayikoreye kuva bakiri bato"
@@ -4923,7 +4965,8 @@
        "part": "Bose"
       },
       {
-       "text": "Imana yacu iracyategeka"
+       "text": "Imana yacu iracyategeka",
+       "gap": true
       },
       {
        "text": "Muzane abakene bo muri mwe, mubafungurire"
@@ -4966,7 +5009,8 @@
       {
        "text": "Isi n’ijuru biguhimbaze ee ee ee eeeeeee,"
       }
-     ]
+     ],
+     "number": 1
     }
    ],
    "credit": "Yanditswe na Pasitori RUSHEMA Efraim, 1961 - mu gutangira yifahiahije ijwi ry’indi ndir. y’Igifaransa, Yabikoze mu mwaka w’ 1990",
@@ -4984,7 +5028,6 @@
    "stanzas": [
     {
      "type": "verse",
-     "number": 1,
      "lines": [
       {
        "text": "Yewe wa si we, yewe wa si we, yewe wa si we eh",
@@ -5028,7 +5071,8 @@
        "part": "Bose"
       },
       {
-       "text": "Umunsi Satani ayigeramo"
+       "text": "Umunsi Satani ayigeramo",
+       "gap": true
       },
       {
        "text": "Yambuye ubwiza Adamu na Eva"
@@ -5074,7 +5118,8 @@
       },
       {
        "text": "Ariko noneho mwese muhumure",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Umucunguzi Yesu yarabonetse",
@@ -5119,7 +5164,8 @@
       },
       {
        "text": "Nibiririmbire hamwe",
-       "repeat": 2
+       "repeat": 2,
+       "gap": true
       },
       {
        "text": "Imisozi n’udusozi",
@@ -5148,7 +5194,8 @@
       {
        "text": "Uwaje kuducungura",
        "repeat": 2,
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Yanesheje cya kiyoka",
@@ -5162,7 +5209,8 @@
        "text": "Niwe mutware dufite",
        "repeat": 5
       }
-     ]
+     ],
+     "number": 1
     }
    ],
    "credit": "Yahimbwe na Pasitori RUSHEMA Efraim, 1961 - , Yayihimbye mu mwaka w’ 1988",
@@ -5218,7 +5266,8 @@
       },
       {
        "text": "Yesu azaza kujyana abe, abakure muri iyi si",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Azadukiza urupfu tujye kubana nawe mu ijuru",
@@ -5351,7 +5400,6 @@
    "stanzas": [
     {
      "type": "verse",
-     "number": 1,
      "lines": [
       {
        "text": "Haleluya",
@@ -5386,7 +5434,8 @@
        "part": "Gabo"
       },
       {
-       "text": "Mumwigireho kuko, ari umugwaneza"
+       "text": "Mumwigireho kuko, ari umugwaneza",
+       "gap": true
       },
       {
        "text": "Aroroheje cyane mu mutima we"
@@ -5403,9 +5452,11 @@
       {
        "text": "Haleluya",
        "repeat": 8,
-       "part": "Bose"
+       "part": "Bose",
+       "gap": true
       }
-     ]
+     ],
+     "number": 1
     }
    ],
    "credit": "Yahimbwe na Pasitori RUSHEMA Efraim, 1961 - , Yayihimbye mu mwaka w’ 1992 51 Yahimbwe na Pasitori RUSHEMA Efraim, 1961 - , Yayihimbye mu mwaka w’ 1988",
@@ -6266,7 +6317,8 @@
        "part": "Bose"
       },
       {
-       "text": "Umugabo wo guhamya yitwa Amina gusa"
+       "text": "Umugabo wo guhamya yitwa Amina gusa",
+       "gap": true
       },
       {
        "text": "Ni umugabo wo guhamya yitwa Amina gusa"
@@ -6305,7 +6357,8 @@
       {
        "text": "Gitare we !!!",
        "repeat": 9,
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Dudubiza amazi menshi cyane tunywe",
@@ -6489,10 +6542,22 @@
       {
        "text": "Ni Yesu Kristo Umwana w’Imana",
        "part": "Bose"
-      },
+      }
+     ]
+    },
+    {
+     "type": "spoken",
+     "lines": [
       {
-       "text": "Ijambo: Yesaya 35:1-10"
-      },
+       "text": "Yesaya 35:1-10"
+      }
+     ]
+    },
+    {
+     "type": "verse",
+     "number": 3,
+     "continued": true,
+     "lines": [
       {
        "text": "Gitare we!!",
        "repeat": 4,
@@ -6666,7 +6731,8 @@
        "part": "Bose"
       },
       {
-       "text": "Ikimenyetso cy’Umwuka wawe"
+       "text": "Ikimenyetso cy’Umwuka wawe",
+       "gap": true
       },
       {
        "text": "Wakimpayeho ingwate,"
@@ -6685,7 +6751,8 @@
       },
       {
        "text": "Wakoze eee byose k’uwo musaraba",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Tugumane Mwami haleluya,"
@@ -6878,7 +6945,8 @@
       },
       {
        "text": "Bagabo b’i Galilaya, kuki mureba mu ijuru ?",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Dore Yesu ubakuwemo, akaba ajyanywe mu bicu"
@@ -6891,7 +6959,8 @@
        "part": "Bose"
       },
       {
-       "text": "Mwami wo kwizerwa kandi w’ukuri"
+       "text": "Mwami wo kwizerwa kandi w’ukuri",
+       "gap": true
       },
       {
        "text": "Wasize ukongeje umuriro ku isi,"
@@ -6916,7 +6985,8 @@
       },
       {
        "text": "Petero, Pawulo, Yakobo, Tomasi",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Barenganirijwe ubutumwa bwiza",
@@ -6957,12 +7027,7 @@
       {
        "text": "Uzahorera ryari",
        "part": "Gore"
-      }
-     ]
-    },
-    {
-     "type": "refrain",
-     "lines": [
+      },
       {
        "text": "Amaraso yacu",
        "part": "Bose"
@@ -6975,8 +7040,7 @@
        "text": "Ari wowe tuzira",
        "part": "Bose"
       }
-     ],
-     "inferred": true
+     ]
     },
     {
      "type": "verse",
@@ -7016,7 +7080,8 @@
       },
       {
        "text": "Kayisari, Pilato na Herode,",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Bamennye amaraso menshi y’abera",
@@ -7139,7 +7204,8 @@
       },
       {
        "text": "Mwese abari mu bwato",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Mwitegure vuba",
@@ -7476,7 +7542,8 @@
       },
       {
        "text": "Nibuka kwizera kwawe kutaryarya,",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Kwabanje kuba muri nyogokuru Loyisi",
@@ -7498,14 +7565,16 @@
       },
       {
        "text": "Jya wibuka ubuhanuzi bwavuze ibyawe",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Kora umurimo wo kubwiriza ubutumwa",
        "part": "Bose"
       },
       {
-       "text": "Ntihakagire umuntu uhinyura ubusore bwawe"
+       "text": "Ntihakagire umuntu uhinyura ubusore bwawe",
+       "gap": true
       },
       {
        "text": "Ahubwo sesa impano ikurimo yake"
@@ -7580,7 +7649,8 @@
        "part": "Bose"
       },
       {
-       "text": "No mu maso ya Yesu uzaca iteka"
+       "text": "No mu maso ya Yesu uzaca iteka",
+       "gap": true
       },
       {
        "text": "Witondere itegeko ntugire ikizinga"
@@ -7987,7 +8057,6 @@
    "stanzas": [
     {
      "type": "verse",
-     "number": 1,
      "lines": [
       {
        "text": "Vuba bidatinze tuzareba Mesiya",
@@ -8018,7 +8087,8 @@
       },
       {
        "text": "Amahanga n’amoko yose azamureba uko ari",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Bazamenya ko ari Yesu wadupfiriye jye nawe"
@@ -8066,7 +8136,8 @@
        "text": "Haleluya haleluya tuzareba Mesiya",
        "repeat": 2
       }
-     ]
+     ],
+     "number": 1
     }
    ],
    "credit": "Yakuwe mu Gifaransa na Pasitori RUSHEMA Efraim, 1961 - , Yayihinduye mu w’1988",
@@ -8295,7 +8366,8 @@
        "part": "Bose"
       },
       {
-       "text": "TUZAGIRA AMAHORO MU IJURU [Re] / Yesaya 35"
+       "text": "TUZAGIRA AMAHORO MU IJURU [Re] / Yesaya 35",
+       "gap": true
       },
       {
        "text": "Yahimbwe na Pasitori RUSHEMA Efraim, 1961"
@@ -8323,11 +8395,8 @@
    "volumeYear": 1997,
    "stanzas": [
     {
-     "type": "refrain",
+     "type": "spoken",
      "lines": [
-      {
-       "text": "Ijambo:"
-      },
       {
        "text": "Uwiteka niwe mwungeri wanjye sinzakena",
        "part": "Gabo"
@@ -8445,10 +8514,12 @@
       },
       {
        "text": "Mu bwihisho bwo mu ihema rye ni ho azanshyira"
-      },
-      {
-       "text": "Ijambo:"
-      },
+      }
+     ]
+    },
+    {
+     "type": "spoken",
+     "lines": [
       {
        "text": "Untunganiriza ameza mu maso y’abanzi banjye",
        "part": "Gabo"
@@ -8476,7 +8547,14 @@
       {
        "text": "Nanjye nzaba mu nzu y’Uwiteka iteka ryose",
        "part": "Gore"
-      },
+      }
+     ]
+    },
+    {
+     "type": "verse",
+     "number": 3,
+     "continued": true,
+     "lines": [
       {
        "text": "Mana wahoze uri umutabazi wanjye",
        "part": "Bose"
@@ -8644,7 +8722,8 @@
        "part": "Bose"
       },
       {
-       "text": "Gab: Ntihagire n’imwe ibacika ngo izimire"
+       "text": "Ntihagire n’imwe ibacika ngo izimire",
+       "part": "Gabo"
       },
       {
        "text": "Zose muzazigeze imuhira",
@@ -8842,12 +8921,8 @@
    "volumeYear": 1997,
    "stanzas": [
     {
-     "type": "verse",
-     "number": 1,
+     "type": "spoken",
      "lines": [
-      {
-       "text": "Ijambo:"
-      },
       {
        "text": "Ubutumwa bwiza bwa Matayo"
       },
@@ -8871,7 +8946,12 @@
       },
       {
        "text": "Kandi twiteguye ko Yesu azaturengera, amen."
-      },
+      }
+     ]
+    },
+    {
+     "type": "verse",
+     "lines": [
       {
        "text": "Hhiiiiiii! Hi hi hiiiiiiii! Benedata nimwitegure",
        "repeat": 2,
@@ -8909,7 +8989,8 @@
        "part": "Gabo"
       },
       {
-       "text": "Inzara na yo ngo ndi hano,"
+       "text": "Inzara na yo ngo ndi hano,",
+       "gap": true
       },
       {
        "text": "Urwango mu bantu reka ntiwareba",
@@ -8944,7 +9025,8 @@
       },
       {
        "text": "( Umwami ari ku bicu /3 cyo tumusanganire ) 4",
-       "part": "Bose"
+       "part": "Bose",
+       "gap": true
       },
       {
        "text": "Ibyo Yesu yavuze byose byamaze gushyika",
@@ -8967,7 +9049,8 @@
        "text": "Oh Yesu uu!",
        "repeat": 2
       }
-     ]
+     ],
+     "number": 1
     }
    ],
    "credit": "Yahimbwe na RUSAGARA Dieudonné",
@@ -9006,7 +9089,8 @@
        "part": "Bose"
       },
       {
-       "text": "Ni ya ntare yo mu muryango wa Dawidi,"
+       "text": "Ni ya ntare yo mu muryango wa Dawidi,",
+       "gap": true
       },
       {
        "text": "Arakinga ntihagire umuntu ukingura,"
@@ -9062,7 +9146,8 @@
        "part": "Bose"
       },
       {
-       "text": "Muri Yerusalemu hazaba ibyishimo"
+       "text": "Muri Yerusalemu hazaba ibyishimo",
+       "gap": true
       },
       {
        "text": "Muri Yerusalemu tuzabaho iteka"
@@ -9100,7 +9185,8 @@
        "part": "Bose"
       },
       {
-       "text": "Gutaha ubukwe bwe muri Yerusalemu"
+       "text": "Gutaha ubukwe bwe muri Yerusalemu",
+       "gap": true
       },
       {
        "text": "Tuzarya ku mbuto z’igiti cy’ubugingo"
@@ -9641,7 +9727,8 @@
       },
       {
        "text": "Eeeee!",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Byatumye Imana iha amahanga yose umugisha ku bwe",
@@ -9652,7 +9739,8 @@
        "part": "Gabo"
       },
       {
-       "text": "Ibya kera bizashiraho, ibya mbere ntibizibukwa"
+       "text": "Ibya kera bizashiraho, ibya mbere ntibizibukwa",
+       "gap": true
       },
       {
        "text": "Arubaka umugi, arawurimbisha"
@@ -9666,7 +9754,8 @@
       },
       {
        "text": "Ibyo twari twaranyazwe azabidusubiza",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Ubukire n’ubugingo biradutegereje"
@@ -9711,7 +9800,8 @@
        "part": "Bose"
       },
       {
-       "text": "Si ya yindi yo mu isi"
+       "text": "Si ya yindi yo mu isi",
+       "gap": true
       },
       {
        "text": "Ahubwo tuvuga iyo mu ijuru"
@@ -9873,7 +9963,8 @@
        "part": "Gabo"
       },
       {
-       "text": "Watsinze Satani, Data, Yesu uri Umwami"
+       "text": "Watsinze Satani, Data, Yesu uri Umwami",
+       "gap": true
       },
       {
        "text": "Wazutse mu bapfuye, (uri Umwami ) /5, Yesu"
@@ -10226,7 +10317,8 @@
       },
       {
        "text": "Umwuka Wera akatwigisha",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Atuyobora mu kuri kose",
@@ -10309,7 +10401,8 @@
        "part": "Bose"
       },
       {
-       "text": "Twakijijwe ku bw’ubuntu"
+       "text": "Twakijijwe ku bw’ubuntu",
+       "gap": true
       },
       {
        "text": "N’imbabazi z’Uwiteka"
@@ -10329,7 +10422,8 @@
       },
       {
        "text": "Ubwo Yesu azagaruka",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Ubwo Yesu azagaruka",
@@ -10444,7 +10538,8 @@
        "part": "Bose"
       },
       {
-       "text": "Mwese mugire ihumure mwikomeze mu mitima"
+       "text": "Mwese mugire ihumure mwikomeze mu mitima",
+       "gap": true
       },
       {
        "text": "Wa mugabo mwiringiye agiye kutwiyereka"
@@ -10480,7 +10575,8 @@
       },
       {
        "text": "Mpindukirane Satani nti ‘‘umva yewe Satani we",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Sigarana iyi si yawe jyewe ndagiye mu ijuru’’"
@@ -10517,7 +10613,8 @@
        "part": "Bose"
       },
       {
-       "text": "Mwami Yesu reba uko ab’iki gihe biyobagiza"
+       "text": "Mwami Yesu reba uko ab’iki gihe biyobagiza",
+       "gap": true
       },
       {
        "text": "Bafite izina ry’uko bariho kandi barapfuye"
@@ -10551,7 +10648,8 @@
        "part": "Bose"
       },
       {
-       "text": "Uyu munsi mutoranye uwo mukwiye gukorera"
+       "text": "Uyu munsi mutoranye uwo mukwiye gukorera",
+       "gap": true
       },
       {
        "text": "Ari Umwami Yesu Kristo cyangwa se ari Antikristo"
@@ -10673,7 +10771,8 @@
       },
       {
        "text": "Tuzagendagenda nk'abami mu mihanda y’izahabu",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Tuzaba dukikijwe n'abamalayika benshi"
@@ -10723,7 +10822,8 @@
       },
       {
        "text": "Twari turi mu makuba",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Turagutakira",
@@ -10766,7 +10866,8 @@
       },
       {
        "text": "Natwe ubwacu turabihamya, wadukoreye ibikomeye",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "N’ubwo twahuye n’ibiturushya ah,",
@@ -10850,7 +10951,8 @@
       },
       {
        "text": "Yewe mugenzi uri hehe? Uri hehe? Uri hehe?",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Mu isi yose ni intambara, indwara n’inzara",
@@ -10886,7 +10988,8 @@
       },
       {
        "text": "Yewe mugenzi uri hehe? Uri hehe? Uri hehe?",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Mu isi yose ni intambara, indwara n’inzara",
@@ -10902,7 +11005,8 @@
        "part": "Gabo"
       },
       {
-       "text": "Twambure imyenda yo gukiranirwa"
+       "text": "Twambure imyenda yo gukiranirwa",
+       "gap": true
       },
       {
        "text": "Twambare iyo gukiranuka",
@@ -10953,7 +11057,8 @@
       },
       {
        "text": "Uwakoze ibitangaza ninde ?",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Ni Yesu uu",
@@ -11024,7 +11129,8 @@
       },
       {
        "text": "Mwami reka mbivuge Mwami wanjye",
-       "repeat": 4
+       "repeat": 4,
+       "gap": true
       },
       {
        "text": "Uri umwana w'Imana ishobora byose"
@@ -11038,7 +11144,8 @@
       },
       {
        "text": "Umwana w'Imana ihoraho.",
-       "part": "Bose"
+       "part": "Bose",
+       "gap": true
       },
       {
        "text": "Kubana n'Umwami ntumumenye",
@@ -11057,7 +11164,8 @@
        "part": "Bose"
       },
       {
-       "text": "Na Yohana mu nzu y'imbohe, yatumye abantu ngo bamubaze"
+       "text": "Na Yohana mu nzu y'imbohe, yatumye abantu ngo bamubaze",
+       "gap": true
       },
       {
        "text": "Mbese ni wowe Mesiya, cyangwa dutegereze undi"
@@ -11085,7 +11193,8 @@
       },
       {
        "text": "Nimugende nimugende",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Ni mugende mubibwire Yohana",
@@ -11290,7 +11399,8 @@
       },
       {
        "text": "Babiri bazaba bari mu buriri bumwe",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Umwe azajyanwa undi na we asigare",
@@ -11418,7 +11528,8 @@
       {
        "text": "Mu ijuru humvikanye urusaku rwinshi",
        "repeat": 2,
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Umumarayika ukomeye arababaza ati: ‘‘ni nde’’ ?",
@@ -11511,7 +11622,8 @@
        "part": "Bose"
       },
       {
-       "text": "Umwana w’Intama arakimbagira, arakimbagira"
+       "text": "Umwana w’Intama arakimbagira, arakimbagira",
+       "gap": true
       },
       {
        "text": "Afata cya gitabo amena ibimenyetso bigifatanyije"
@@ -11535,7 +11647,8 @@
       },
       {
        "text": "Numva ijwi rirenga rivuga riti:",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Wirira Yohana",
@@ -11669,7 +11782,8 @@
        "part": "Bose"
       },
       {
-       "text": "No kwihangana kwawe umva gusenga kwacu"
+       "text": "No kwihangana kwawe umva gusenga kwacu",
+       "gap": true
       },
       {
        "text": "Ese Mwami ni gihe ki?"
@@ -11697,7 +11811,8 @@
       },
       {
        "text": "Ibizima bine bizajya bivuga biti: ‘‘Uwera, Uwera’’",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Abakuru makumyabiri na bane bati: ‘‘Uwera Uwera’’"
@@ -11735,7 +11850,6 @@
    "stanzas": [
     {
      "type": "verse",
-     "number": 1,
      "lines": [
       {
        "text": "Tuza! Tuza tuza wa nyanja tuza",
@@ -11756,7 +11870,8 @@
       },
       {
        "text": "Uru rugendo twararutangiye",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Kandi dore turarukomeje"
@@ -11799,7 +11914,8 @@
        "part": "Gabo"
       },
       {
-       "text": "Iyi si mubona tuyicamo tujya mu ijuru"
+       "text": "Iyi si mubona tuyicamo tujya mu ijuru",
+       "gap": true
       },
       {
        "text": "Kubera ubutunzi benshi cyane bararohama"
@@ -11815,7 +11931,8 @@
       },
       {
        "text": "Iyi si yemwe mubona",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Iyi si mubona tuyicamo tujya mu ijuru"
@@ -11889,7 +12006,8 @@
        "text": "Ntabwo tuzongera kubabara",
        "part": "Bose"
       }
-     ]
+     ],
+     "number": 1
     }
    ],
    "credit": "Yahimbwe na BIGIRIMANA Raymond",
@@ -11907,7 +12025,6 @@
    "stanzas": [
     {
      "type": "verse",
-     "number": 1,
      "lines": [
       {
        "text": "Umwuka w’Uwiteka",
@@ -11925,7 +12042,8 @@
       },
       {
        "text": "Mwuka Wera aduha imbaraga",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "zo kuvuga ubutumwa dushize amanga"
@@ -12038,7 +12156,8 @@
        "part": "Bose"
       },
       {
-       "text": "Nzajya nigisha murikire imfungwa"
+       "text": "Nzajya nigisha murikire imfungwa",
+       "gap": true
       },
       {
        "text": "Mbe amaso y’impumyi, nshimishe abakene"
@@ -12060,7 +12179,8 @@
       {
        "text": "Umwuka w’Uwiteka hamwe na njye"
       }
-     ]
+     ],
+     "number": 1
     }
    ],
    "credit": "Yahimbwe na Pasitori RUSHEMA Efraim, 1961- ; Yayihimbye mu mwaka w’ 1999",
@@ -12203,8 +12323,9 @@
        "part": "Bose"
       },
       {
-       "text": "Base: Tuzashima",
-       "repeat": 3
+       "text": "Tuzashima",
+       "repeat": 3,
+       "part": "Basse"
       },
       {
        "text": "Tuzashima",
@@ -12576,7 +12697,6 @@
    "stanzas": [
     {
      "type": "verse",
-     "number": 1,
      "lines": [
       {
        "text": "Wa muja wo kwa Namani",
@@ -12659,7 +12779,8 @@
       },
       {
        "text": "Urwandiko rwa Namani",
-       "repeat": 2
+       "repeat": 2,
+       "gap": true
       },
       {
        "text": "Ashishimura imyenda ye ati:"
@@ -12684,14 +12805,16 @@
       {
        "text": "Mureke ansange",
        "repeat": 5,
-       "part": "Bose"
+       "part": "Bose",
+       "gap": true
       },
       {
        "text": "Namani ageze kwa Elisa, Elisa aramubwira ati:",
        "part": "Gabo"
       },
       {
-       "text": "‘‘Genda wiyuhagire muri Yorodani karindwi’’"
+       "text": "‘‘Genda wiyuhagire muri Yorodani karindwi’’",
+       "gap": true
       },
       {
        "text": "Namani amaze gukira avuga n’ijwi rirenga"
@@ -12709,7 +12832,8 @@
       {
        "text": "Yewe Namani",
        "repeat": 3,
-       "part": "Basse"
+       "part": "Basse",
+       "gap": true
       },
       {
        "text": "Uyu munsi uri bumenye",
@@ -12819,7 +12943,8 @@
        "repeat": 4,
        "part": "Bose"
       }
-     ]
+     ],
+     "number": 1
     }
    ],
    "credit": "Yahimbwe na RUSAGARA Dieudonné",
@@ -12929,7 +13054,8 @@
       },
       {
        "text": "Buri munsi arakubwira ati :",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "‘‘Ntutinye kuko ndi kumwe nawe’’",
@@ -12976,7 +13102,8 @@
       {
        "text": "Icyo gihe kizaba ari igihe",
        "repeat": 2,
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Kiruhije cyane",
@@ -13004,12 +13131,7 @@
        "text": "Uri mwiza",
        "repeat": 2,
        "part": "Bose"
-      }
-     ]
-    },
-    {
-     "type": "refrain",
-     "lines": [
+      },
       {
        "text": "Yesu Mwami",
        "part": "Gore"
@@ -13024,8 +13146,7 @@
        "repeat": 2,
        "part": "Gore"
       }
-     ],
-     "inferred": true
+     ]
     },
     {
      "type": "verse",
@@ -13286,7 +13407,6 @@
    "stanzas": [
     {
      "type": "verse",
-     "number": 1,
      "lines": [
       {
        "text": "Uwo musaraba wa Yesu",
@@ -13414,7 +13534,8 @@
        "part": "Bose"
       },
       {
-       "text": "Arabibambanwa ku musaraba"
+       "text": "Arabibambanwa ku musaraba",
+       "gap": true
       },
       {
        "text": "Yemera kuba igishungero"
@@ -13427,7 +13548,8 @@
       },
       {
        "text": "Wa mwenda wari ukingirije ahera",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Utabukamo kabiri",
@@ -13533,7 +13655,8 @@
        "text": "Yabivuze hejuru n’ijwi rirenga",
        "part": "Bose"
       }
-     ]
+     ],
+     "number": 1
     }
    ],
    "credit": "Yahimbwe na RUSAGARA Dieudonné",
@@ -13586,7 +13709,8 @@
       },
       {
        "text": "N’ubwo tubabazwa tugasonza, tukarwara,",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Tugapfakara, tukaba imfubyi nk'abandi bose"
@@ -13655,7 +13779,6 @@
    "stanzas": [
     {
      "type": "verse",
-     "number": 1,
      "lines": [
       {
        "text": "Reka mbabwire ubwiza bwawe",
@@ -13683,7 +13806,8 @@
       },
       {
        "text": "Mwami wanjye ndagushima",
-       "repeat": 2
+       "repeat": 2,
+       "gap": true
       },
       {
        "text": "Uri rya buye ryanzwe n'abubatsi"
@@ -13699,7 +13823,8 @@
       },
       {
        "text": "Uri mwiza Mwami",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Ushobora byose",
@@ -13749,8 +13874,9 @@
        "part": "Bose"
       },
       {
-       "text": "Solo: Ineza yawe Mwami",
-       "repeat": 4
+       "text": "Ineza yawe Mwami",
+       "repeat": 4,
+       "part": "Solo"
       },
       {
        "text": "Iyo turi mu bibazo Mwami ntujya udutererana"
@@ -13766,15 +13892,17 @@
        "part": "Bose"
       },
       {
-       "text": "Solo: Haleluya ineza yuwo Mwami wacu"
+       "text": "Haleluya ineza yuwo Mwami wacu",
+       "part": "Solo"
       },
       {
        "text": "Ntirondoreka",
        "part": "Bose"
       },
       {
-       "text": "Solo: Ineza yawe",
-       "repeat": 4
+       "text": "Ineza yawe",
+       "repeat": 4,
+       "part": "Solo"
       },
       {
        "text": "Iyo usuye umupfakazi yibagirwa ko yigeze gupfakara"
@@ -13790,21 +13918,24 @@
        "part": "Bose"
       },
       {
-       "text": "Solo: Ineza yawe Mwami we"
+       "text": "Ineza yawe Mwami we",
+       "part": "Solo"
       },
       {
        "text": "Ntirondoreka",
        "part": "Bose"
       },
       {
-       "text": "Solo: Haleluya ineza y’uwo Mwami wacu"
+       "text": "Haleluya ineza y’uwo Mwami wacu",
+       "part": "Solo"
       },
       {
        "text": "Ntirondoreka",
        "part": "Bose"
       },
       {
-       "text": "Solo: Hoziyana ineza y’uwo Mwami wacu"
+       "text": "Hoziyana ineza y’uwo Mwami wacu",
+       "part": "Solo"
       },
       {
        "text": "Ntirindoreka",
@@ -13844,7 +13975,8 @@
        "part": "Bose"
       },
       {
-       "text": "WITINYISHWA N’IBIGERAGEZO / Zaburi 34:20, Yakobo1:12"
+       "text": "WITINYISHWA N’IBIGERAGEZO / Zaburi 34:20, Yakobo1:12",
+       "gap": true
       },
       {
        "text": "Yasubiwemo n’itsinda ry’Abahimbyi ba Hoziyana, 2008."
@@ -13867,7 +13999,8 @@
       {
        "text": "IZINDI"
       }
-     ]
+     ],
+     "number": 1
     }
    ],
    "credit": "Yahimbwe na RUSAGARA Dieudonné .",
@@ -13972,7 +14105,6 @@
    "stanzas": [
     {
      "type": "verse",
-     "number": 1,
      "lines": [
       {
        "text": "Tuje mu nzu yawe tuzanye ibitambo by’ishimwe"
@@ -14026,7 +14158,8 @@
        "text": "Icyo gitare cyari Krisito",
        "repeat": 2
       }
-     ]
+     ],
+     "number": 1
     }
    ],
    "credit": "Yahinduwe na Pasitori RUSHEMA Efraim, 1961 - ; Hari mu mwaka w’ 1991",
@@ -14137,7 +14270,8 @@
       },
       {
        "text": "Niwumvira iryo jwi rye rihamagara a",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Ati: ‘‘yewe uwo nkunda ngwino ngukize’’"
@@ -14170,7 +14304,8 @@
       },
       {
        "text": "Niwemera ukumvira urezwa dede!!,",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Urandikwa mu gitabo cy’ubugingo"
@@ -14203,7 +14338,8 @@
       },
       {
        "text": "Umubyeyi amubonye aranezerwa",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Amuhobera bwangu aramusoma"
@@ -14372,7 +14508,6 @@
    "stanzas": [
     {
      "type": "verse",
-     "number": 1,
      "lines": [
       {
        "text": "Umwami Yesu agiye kujya mu ijuru yasize avuze",
@@ -14384,7 +14519,8 @@
        "part": "Bose"
       },
       {
-       "text": "Ati: ‘‘nimugende i Yerusalemu nzaboherereza"
+       "text": "Ati: ‘‘nimugende i Yerusalemu nzaboherereza",
+       "gap": true
       },
       {
        "text": "umufasha”2"
@@ -14398,7 +14534,8 @@
       },
       {
        "text": "Ariko Umwuka Wera namanuka zatsinda ab’isi",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Abemeze iby’icyaha",
@@ -14452,7 +14589,8 @@
       {
        "text": "Ni we ngwate y’abaragwa b’ubugingo buhoraho"
       }
-     ]
+     ],
+     "number": 1
     }
    ],
    "credit": "Yahimbwe na MUNYANKINDI Ezekiel, 1961-",
@@ -14470,7 +14608,6 @@
    "stanzas": [
     {
      "type": "verse",
-     "number": 1,
      "lines": [
       {
        "text": "Uwiteka uri mwiza aahh"
@@ -14495,7 +14632,8 @@
       },
       {
        "text": "Gukiranuka",
-       "part": "Basse"
+       "part": "Basse",
+       "gap": true
       },
       {
        "text": "Ni ukwawe eeeh!",
@@ -14510,7 +14648,8 @@
        "part": "Gore"
       },
       {
-       "text": "Aah mu nzira ze iminsi yose"
+       "text": "Aah mu nzira ze iminsi yose",
+       "gap": true
       },
       {
        "text": "Azahabwa umugisha w’i Siyoni"
@@ -14536,7 +14675,8 @@
       },
       {
        "text": "Ni we wakamije inyanja",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Inzira iraboneka",
@@ -14546,7 +14686,8 @@
        "text": "Uwo yacanye umuriro",
        "part": "Gore"
       }
-     ]
+     ],
+     "number": 1
     }
    ],
    "credit": "Yahimbwe n’Itsinda ry’Abahimbyi,",
@@ -15065,7 +15206,8 @@
       },
       {
        "text": "Garuka garuka wikwibeshya ubugingo",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Garuka garuka wikinisha agakiza"
@@ -15090,7 +15232,8 @@
       },
       {
        "text": "Ururimi rwawe rurateranya",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Wishimira kubana n’abajuru"
@@ -15133,7 +15276,8 @@
        "part": "Gore"
       },
       {
-       "text": "Gose: Ugakomeza kwinangira"
+       "text": "Ugakomeza kwinangira",
+       "part": "Bose"
       },
       {
        "text": "Ibuka uko yagi-ye akwi-yereka kenshi",
@@ -15223,7 +15367,8 @@
       },
       {
        "text": "Ariko kuko Imana ari umutunzi w'imbabazi",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Yemera gutanga Yesu ngo ashenjagurwe"
@@ -15267,7 +15412,8 @@
        "part": "Bose"
       },
       {
-       "text": "Twagiriwe twebwe abari kure"
+       "text": "Twagiriwe twebwe abari kure",
+       "gap": true
       },
       {
        "text": "Twigijwe hafi y'Imana"
@@ -15291,7 +15437,8 @@
       },
       {
        "text": "Yarazutse ni muzima",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Ni muzima Yesu yarazutse",
@@ -15364,7 +15511,8 @@
       },
       {
        "text": "Ariko abakiranutsi izuba ryo gukiranuka",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Rizabarasira rifite gukiza"
@@ -15378,10 +15526,12 @@
       },
       {
        "text": "Uuuuuh uuuuh uuuu"
-      },
-      {
-       "text": "Ijambo:"
-      },
+      }
+     ]
+    },
+    {
+     "type": "spoken",
+     "lines": [
       {
        "text": "Umunyabyaha nareke ingeso mbi,"
       },
@@ -15393,7 +15543,14 @@
       },
       {
        "text": "Ni umunyembabazi"
-      },
+      }
+     ]
+    },
+    {
+     "type": "verse",
+     "number": 2,
+     "continued": true,
+     "lines": [
       {
        "text": "Ni umunyembabazi",
        "part": "Bose"
@@ -15449,7 +15606,8 @@
       },
       {
        "text": "Umunsi wa Pentekote usohoye",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       }
      ]
     },
@@ -15490,7 +15648,8 @@
       },
       {
        "text": "Yarazutse ni we ukoze ibi mureba",
-       "repeat": 2
+       "repeat": 2,
+       "gap": true
       },
       {
        "text": "Natwe turamukeneye uwo Mwuka Wera"
@@ -15557,7 +15716,8 @@
        "part": "Bose"
       },
       {
-       "text": "Izina rya Yesu niryo dukirizwamo"
+       "text": "Izina rya Yesu niryo dukirizwamo",
+       "gap": true
       },
       {
        "text": "Imibiri n'imitima yacu bigakira"
@@ -15646,7 +15806,8 @@
       },
       {
        "text": "Yemwe Bungeri mbe mwabonye iki ?",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Twabonye abamalayika baturutse mu ijuru",
@@ -15821,7 +15982,8 @@
       },
       {
        "text": "Abahanuzi barahanuye",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Ukuvuka kwe bategura imitima bati:"
@@ -15831,7 +15993,8 @@
        "part": "Bose"
       },
       {
-       "text": "Ni ukuri nturi muto, mu midugudu ya Yuda"
+       "text": "Ni ukuri nturi muto, mu midugudu ya Yuda",
+       "gap": true
       },
       {
        "text": "Kuko dore muri wowe hazaturuka umutware"
@@ -16209,7 +16372,8 @@
       {
        "text": "Tuzabaneyo!",
        "repeat": 3,
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Tuzabaneyo",
@@ -16252,7 +16416,8 @@
       {
        "text": "Ku ngoma ye azaba ari ibyishimo bifite ishingiro",
        "repeat": 2,
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Njye ndabihamya neza kuko mbifitiye gihamya",
@@ -16280,7 +16445,8 @@
        "part": "Bose"
       },
       {
-       "text": "Ibyago n’amakuba bizaba bishize"
+       "text": "Ibyago n’amakuba bizaba bishize",
+       "gap": true
       },
       {
        "text": "Tujyanwe aheza ibudapfa mu ijuru iwacu"
@@ -16313,7 +16479,8 @@
       },
       {
        "text": "Ntituzongera kubabara aaa",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Mu ijuru iwacu",
@@ -16482,7 +16649,6 @@
    "stanzas": [
     {
      "type": "verse",
-     "number": 1,
      "lines": [
       {
        "text": "Hariho umusozi witwa Gologota",
@@ -16524,7 +16690,8 @@
       },
       {
        "text": "Ariko ku munsi wa gatatu azazuka",
-       "repeat": 2
+       "repeat": 2,
+       "gap": true
       },
       {
        "text": "Yacunguriye abantu Imana, yatwunze na Data"
@@ -16561,7 +16728,8 @@
       },
       {
        "text": "Azaza amareho imibabaro",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Yashenguye imitima yacu"
@@ -16587,7 +16755,8 @@
        "text": "Yesu twiringiye azagaruka",
        "repeat": 2
       }
-     ]
+     ],
+     "number": 1
     }
    ],
    "credit": "Yanditswe na MUTABAZI Bonfils, 1987 , Yatunganijwe mu mwaka w’ 2017",
@@ -16695,7 +16864,8 @@
        "part": "Bose"
       },
       {
-       "text": "Niba twirengagije agakiza twahawe"
+       "text": "Niba twirengagije agakiza twahawe",
+       "gap": true
       },
       {
        "text": "Nicyo gituma benedata bera"
@@ -16730,7 +16900,6 @@
    "stanzas": [
     {
      "type": "verse",
-     "number": 1,
      "lines": [
       {
        "text": "Ntitukiri imbata ngo tugire ubwoba hoya"
@@ -16747,7 +16916,8 @@
       },
       {
        "text": "Igihe abisirayeli bari imbata za Farawo",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Ntabyiringiro byo kuzataha i Kanani"
@@ -16760,7 +16930,8 @@
        "part": "Bose"
       },
       {
-       "text": "Nta byiringiro by’ubugingo buhoraho"
+       "text": "Nta byiringiro by’ubugingo buhoraho",
+       "gap": true
       },
       {
        "text": "Natwe twari imbata za Satani"
@@ -16776,7 +16947,8 @@
       },
       {
        "text": "Ariko noneho ubwo twabatuwe ku byaha",
-       "part": "Gore"
+       "part": "Gore",
+       "gap": true
       },
       {
        "text": "Tukaba imbata z’Imana aaa"
@@ -16790,7 +16962,8 @@
        "part": "Bose"
       },
       {
-       "text": "Waduhinduye abana bayo oooo"
+       "text": "Waduhinduye abana bayo oooo",
+       "gap": true
       },
       {
        "text": "Ni we gukiranuka kw’abamwizera"
@@ -16814,7 +16987,8 @@
       },
       {
        "text": "Twatsindishirijwe n’amaraso ya Yesu",
-       "part": "Gabo"
+       "part": "Gabo",
+       "gap": true
       },
       {
        "text": "Twahawe ubushobozi"
@@ -16838,7 +17012,8 @@
        "part": "Bose"
       },
       {
-       "text": "Ubu turi abaragwa"
+       "text": "Ubu turi abaragwa",
+       "gap": true
       },
       {
        "text": "Turi abana b’ubwami"
@@ -16889,7 +17064,8 @@
       {
        "text": "Dufite ubugingo buhoraho"
       }
-     ]
+     ],
+     "number": 1
     }
    ],
    "credit": "Yanditswe na TUYISENGE Christian, 1978 ; Yatunganijwe mu mwaka w’ 2018",

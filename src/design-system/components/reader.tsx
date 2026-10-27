@@ -14,51 +14,71 @@ type LyricStyle = { size: LyricSize; typeface: Settings['typeface']; showNumbers
 
 export function VerseBlock({ stanza, lyric }: { stanza: Stanza; lyric: LyricStyle }) {
   const refrain = stanza.type === 'refrain';
+  const spoken = stanza.type === 'spoken';
   const lineHeight = lyricLineHeight(lyric.size);
-  const hasParts = stanza.lines.some((line) => line.part);
+  // A section (lines up to the next gap) reserves the part-label column only if it has parts,
+  // so a passage everyone sings keeps the full width.
+  const sectionHasParts: boolean[] = [];
+  stanza.lines.forEach((line, i) => {
+    if (i === 0 || line.gap) {
+      const end = stanza.lines.findIndex((l, j) => j > i && l.gap);
+      const hasParts = stanza.lines.slice(i, end === -1 ? undefined : end).some((l) => l.part);
+      sectionHasParts.push(hasParts);
+    } else {
+      sectionHasParts.push(sectionHasParts[i - 1]);
+    }
+  });
   const fontFamily =
-    lyric.typeface === 'sans' ? 'Inter-Regular' : refrain ? type.refrain.fontFamily : type.lyrics.fontFamily;
+    lyric.typeface === 'sans' ? 'Inter-Regular' : refrain || spoken ? type.refrain.fontFamily : type.lyrics.fontFamily;
   const textStyle = {
     fontFamily,
-    fontStyle: lyric.typeface === 'sans' && refrain ? ('italic' as const) : undefined,
+    fontStyle: lyric.typeface === 'sans' && (refrain || spoken) ? ('italic' as const) : undefined,
     fontSize: lyric.size,
     lineHeight,
   };
+  const label = spoken ? t.reader.spoken : refrain && !stanza.continued ? t.reader.refrain : null;
 
   return (
     <View style={styles.verse}>
       {lyric.showNumbers ? (
         <View style={styles.numberColumn}>
-          {!refrain ? (
+          {stanza.type === 'verse' && !stanza.continued ? (
             <Text variant="verseNumber" color="textSecondary" style={{ lineHeight }}>
               {stanza.number}
             </Text>
           ) : null}
         </View>
       ) : null}
-      <View style={[{ flex: 1 }, refrain && { paddingLeft: 16 }]}>
-        {refrain ? (
+      <View style={[{ flex: 1 }, (refrain || spoken) && { paddingLeft: 16 }]}>
+        {label ? (
           <Text variant="overline" color="textSecondary" style={{ lineHeight: 20 }}>
-            {t.reader.refrain}
+            {label}
           </Text>
         ) : null}
         {stanza.lines.map((line, i) => (
-          // Part labels (Gore, Bose…) sit in their own column so they never change the
-          // height of the lyric line; nested text with its own line height breaks the line box on iOS.
-          <View key={i} style={styles.line}>
-            {hasParts ? (
-              <Text variant="overline" color="textSecondary" style={[styles.part, { lineHeight }]}>
-                {line.part ?? ''}
+          <View key={i} style={line.gap && { paddingTop: Math.round(lineHeight / 2) }}>
+            {line.heading ? (
+              <Text variant="overline" color="textSecondary" style={{ lineHeight: 20 }}>
+                {t.reader[line.heading]}
               </Text>
             ) : null}
-            <Text color={refrain ? 'textRefrain' : 'textPrimary'} style={[textStyle, { flex: 1 }]}>
-              {line.text}
-              {line.repeat ? (
-                <Text variant="meta" color="textSecondary" style={{ lineHeight }}>
-                  {'  '}×{line.repeat}
+            {/* Part labels (Gore, Bose…) sit in their own column so they never change the
+                height of the lyric line; nested text with its own line height breaks the line box on iOS. */}
+            <View style={styles.line}>
+              {sectionHasParts[i] ? (
+                <Text variant="overline" color="textSecondary" style={[styles.part, { lineHeight }]}>
+                  {line.part ?? ''}
                 </Text>
               ) : null}
-            </Text>
+              <Text color={refrain || spoken ? 'textRefrain' : 'textPrimary'} style={[textStyle, { flex: 1 }]}>
+                {line.text}
+                {line.repeat ? (
+                  <Text variant="meta" color="textSecondary" style={{ lineHeight }}>
+                    {'  '}×{line.repeat}
+                  </Text>
+                ) : null}
+              </Text>
+            </View>
           </View>
         ))}
       </View>

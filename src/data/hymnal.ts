@@ -5,14 +5,24 @@ export type LyricLine = {
   text: string;
   repeat?: number;
   part?: string;
+  // Starts a new section inside the stanza (e.g. where a Gore/Bose exchange begins).
+  gap?: boolean;
+  // A cue printed in the book, such as "Inyikirizo:" (sing the refrain here).
+  heading?: 'refrain';
 };
 
 export type Stanza = {
-  type: 'verse' | 'refrain';
+  // 'spoken' is a reading ("Ijambo:") between sung parts.
+  type: 'verse' | 'refrain' | 'spoken';
   number?: number;
   lines: LyricLine[];
   inferred?: boolean;
+  // The rest of a verse or refrain after a spoken passage.
+  continued?: boolean;
 };
+
+// Stanzas the reader offers as verse chips: not spoken passages or continuations.
+export const isNavigable = (s: Stanza) => s.type !== 'spoken' && !s.continued;
 
 export type Hymn = {
   number: number;
@@ -71,11 +81,11 @@ export function playlistOf(hymn: Hymn): Playlist | undefined {
 }
 
 export function verseCount(hymn: Hymn) {
-  return hymn.stanzas.filter((s) => s.type === 'verse').length;
+  return hymn.stanzas.filter((s) => s.type === 'verse' && !s.continued).length;
 }
 
 export function firstLine(hymn: Hymn) {
-  return hymn.stanzas[0]?.lines[0]?.text ?? '';
+  return hymn.stanzas.find((s) => s.type !== 'spoken' && s.lines.length)?.lines[0]?.text ?? '';
 }
 
 const fold = (s: string) =>

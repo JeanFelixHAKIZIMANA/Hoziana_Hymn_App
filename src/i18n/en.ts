@@ -28,6 +28,7 @@ export const en = {
     numberOverline: (n: number) => `No. ${n}`,
     keyOf: (key: string) => `Key of ${key}`,
     refrain: 'Refrain',
+    spoken: 'Spoken word',
     textSettings: 'Text settings',
     favorite: 'Add to favorites',
     unfavorite: 'Remove from favorites',
