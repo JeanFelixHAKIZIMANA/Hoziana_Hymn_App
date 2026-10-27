@@ -15,7 +15,7 @@
     "android": {
       "package": "rw.hoziana.hymnal",
       "adaptiveIcon": {
-        "backgroundColor": "#F8F6F1",
+        "backgroundColor": "#141312",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
@@ -33,9 +33,9 @@
         "expo-splash-screen",
         {
           "backgroundColor": "#F8F6F1",
-          "image": "./assets/splash-icon.png",
-          "imageWidth": 120,
-          "dark": { "backgroundColor": "#141312" }
+          "image": "./assets/splash-logo-light.png",
+          "imageWidth": 200,
+          "dark": { "image": "./assets/splash-logo-dark.png", "backgroundColor": "#141312" }
         }
       ]
     ],
