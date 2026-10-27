@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { syncContent } from '@/data/content';
 import { ThemeProvider, fontFaces, useTheme } from '@/design-system';
 
 SplashScreen.preventAutoHideAsync();
@@ -25,6 +26,11 @@ export default function RootLayout() {
   useEffect(() => {
     if (loaded || error) SplashScreen.hideAsync();
   }, [loaded, error]);
+
+  // Pick up hymn and page edits from the content website, if one is configured.
+  useEffect(() => {
+    syncContent();
+  }, []);
 
   if (!loaded && !error) return null;
 

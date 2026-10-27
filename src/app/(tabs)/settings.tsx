@@ -1,7 +1,9 @@
 import Constants from 'expo-constants';
-import { Alert, ScrollView, Share } from 'react-native';
+import { router } from 'expo-router';
+import { ScrollView, Share } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { usePage } from '@/data/content';
 import { userActions, useUserState } from '@/data/user-store';
 import {
   Screen,
@@ -20,6 +22,7 @@ export default function Settings() {
   const settings = useUserState((s) => s.settings);
   const set = userActions.setSetting;
   const { scheme } = useTheme();
+  const about = usePage('about');
 
   const nextSize = () => {
     const i = lyricSizes.indexOf(settings.lyricSize);
@@ -60,7 +63,7 @@ export default function Settings() {
         </SettingsGroup>
 
         <SettingsGroup label={t.settings.about}>
-          <SettingsRow first label={t.settings.aboutChoir} value="" onPress={() => Alert.alert(t.settings.aboutChoir, t.settings.aboutBody)} />
+          <SettingsRow first label={about?.title ?? t.settings.aboutChoir} value="" onPress={() => router.push('/about')} />
           <SettingsRow label={t.settings.share} value="" onPress={() => Share.share({ message: t.settings.shareMessage })} />
         </SettingsGroup>
 

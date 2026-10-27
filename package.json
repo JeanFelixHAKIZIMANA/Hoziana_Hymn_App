@@ -39,7 +39,9 @@
     "typecheck": "tsc --noEmit",
     "lint": "expo lint",
     "build:icons": "node scripts/build-icons.mjs",
-    "build:hymns": "python3 scripts/parse_hymnal.py"
+    "build:hymns": "python3 scripts/parse_hymnal.py",
+    "build:seed": "node scripts/build-seed.mjs",
+    "check:hymn-text": "node --experimental-strip-types scripts/check-hymn-text.mjs"
   },
   "private": true
 }

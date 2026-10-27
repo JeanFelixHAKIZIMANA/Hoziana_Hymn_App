@@ -14,7 +14,7 @@ HEADER = re.compile(r"^(\d{1,3})\s*\.\s*([A-ZÀ-Ý][A-ZÀ-Ý’'\s,().:\d-]*?[A-
 FOOTNOTE = re.compile(r"^(\d{1,3})\s*\.\s*([A-Z][a-zà-ÿ].*)$")
 ROMAN = re.compile(r"^\s*(I{1,3}|IV|V|VI{1,3}|IX|X)\s*\.\s*(.*)$")
 ROMAN_VAL = {"I":1,"II":2,"III":3,"IV":4,"V":5,"VI":6,"VII":7,"VIII":8,"IX":9,"X":10}
-REPEAT = re.compile(r"\s*[/\\]\s*(\d)?\s*$")
+REPEAT = re.compile(r"\s*[/\\]\s*(\d{1,2})?\s*$")
 
 def parse_header(num, text):
     m = re.search(r"(?<=[A-ZÀ-Ý’')])\s?" + str(num) + r"(?!\d)", text)
