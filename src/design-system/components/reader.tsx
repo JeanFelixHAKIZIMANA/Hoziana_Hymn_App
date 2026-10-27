@@ -15,6 +15,7 @@ type LyricStyle = { size: LyricSize; typeface: Settings['typeface']; showNumbers
 export function VerseBlock({ stanza, lyric }: { stanza: Stanza; lyric: LyricStyle }) {
   const refrain = stanza.type === 'refrain';
   const lineHeight = lyricLineHeight(lyric.size);
+  const hasParts = stanza.lines.some((line) => line.part);
   const fontFamily =
     lyric.typeface === 'sans' ? 'Inter-Regular' : refrain ? type.refrain.fontFamily : type.lyrics.fontFamily;
   const textStyle = {
@@ -42,19 +43,23 @@ export function VerseBlock({ stanza, lyric }: { stanza: Stanza; lyric: LyricStyl
           </Text>
         ) : null}
         {stanza.lines.map((line, i) => (
-          <Text key={i} color={refrain ? 'textRefrain' : 'textPrimary'} style={textStyle}>
-            {line.part ? (
-              <Text variant="overline" color="textSecondary">
-                {line.part}{'  '}
+          // Part labels (Gore, Bose…) sit in their own column so they never change the
+          // height of the lyric line; nested text with its own line height breaks the line box on iOS.
+          <View key={i} style={styles.line}>
+            {hasParts ? (
+              <Text variant="overline" color="textSecondary" style={[styles.part, { lineHeight }]}>
+                {line.part ?? ''}
               </Text>
             ) : null}
-            {line.text}
-            {line.repeat ? (
-              <Text variant="meta" color="textSecondary">
-                {'  '}×{line.repeat}
-              </Text>
-            ) : null}
-          </Text>
+            <Text color={refrain ? 'textRefrain' : 'textPrimary'} style={[textStyle, { flex: 1 }]}>
+              {line.text}
+              {line.repeat ? (
+                <Text variant="meta" color="textSecondary" style={{ lineHeight }}>
+                  {'  '}×{line.repeat}
+                </Text>
+              ) : null}
+            </Text>
+          </View>
         ))}
       </View>
     </View>
@@ -223,6 +228,8 @@ export function TextSettingsSheet({
 const styles = StyleSheet.create({
   verse: { flexDirection: 'row' },
   numberColumn: { width: 28 },
+  line: { flexDirection: 'row' },
+  part: { width: 52 },
   readerBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingTop: 8, paddingHorizontal: 12 },
   chips: { flexDirection: 'row', gap: 4, flexShrink: 1, flexWrap: 'wrap', justifyContent: 'center' },
   chip: { width: 40, height: 40, borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center' },
