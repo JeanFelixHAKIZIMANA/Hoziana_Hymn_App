@@ -91,3 +91,7 @@ Hymns can be hidden from the app (**Hide from app**) but are never deleted.
   the app keep it active. If it is ever paused, the app keeps working with its saved
   copy; resume the project from the Supabase dashboard.
 - `npm run check:hymn-text` checks that every hymn survives the editor's text format unchanged.
+- Editors are signed out after 60 minutes with no mouse, keyboard, scroll or touch
+  activity, counted across all open tabs and including time the computer was asleep.
+  A warning appears five minutes before. Change `IDLE_LIMIT_MS` in `admin/src/idle.ts`
+  to adjust it.

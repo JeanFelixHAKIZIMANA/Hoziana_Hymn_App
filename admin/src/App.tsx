@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { AboutEditor } from './AboutEditor';
 import { HymnEditor } from './HymnEditor';
 import { HymnList } from './HymnList';
+import { isStale, signOutIdle, useIdleSignOut } from './idle';
 import { Login } from './Login';
 import { configured, supabase } from './supabase';
 
@@ -24,10 +25,19 @@ export function App() {
   const route = useRoute();
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setSession(data.session));
-    const { data } = supabase.auth.onAuthStateChange((_event, s) => setSession(s));
+    // A session left in storage past the idle limit (closed tab, sleeping laptop) is signed out on load.
+    const accept = (s: Session | null) => {
+      if (s && isStale()) {
+        setSession(null);
+        void signOutIdle();
+      } else setSession(s);
+    };
+    supabase.auth.getSession().then(({ data }) => accept(data.session));
+    const { data } = supabase.auth.onAuthStateChange((_event, s) => accept(s));
     return () => data.subscription.unsubscribe();
   }, []);
+
+  const minutesLeft = useIdleSignOut(Boolean(session));
 
   useEffect(() => {
     if (!session) return setEditor(undefined);
@@ -75,6 +85,12 @@ export function App() {
           </button>
         </div>
       </header>
+      {minutesLeft !== null ? (
+        <p className="idle-warning" role="status">
+          You’ll be signed out in {minutesLeft} {minutesLeft === 1 ? 'minute' : 'minutes'} because of inactivity. Move
+          the mouse or press a key to stay signed in, and save any changes you want to keep.
+        </p>
+      ) : null}
       {editor === false ? (
         <main className="narrow">
           <p className="notice">
