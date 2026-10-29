@@ -1,6 +1,16 @@
 import { BlurView } from 'expo-blur';
 import type { ReactNode } from 'react';
-import { Platform, StyleSheet, Text as RNText, View, type StyleProp, type TextProps, type ViewStyle } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  Text as RNText,
+  View,
+  useWindowDimensions,
+  type StyleProp,
+  type TextProps,
+  type ViewStyle,
+} from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Defs, RadialGradient, Rect, Stop, SvgXml } from 'react-native-svg';
 
 import { iconXml, type IconName } from './icons.generated';
@@ -74,10 +84,10 @@ export function Glass({ children, style, radius = 0, strong = false, shadow = 's
 // The single faint indigo glow behind every screen ("Ambient light" in Figma).
 // Figma draws it as a blurred circle; a radial gradient gives the same falloff
 // on both platforms.
-export function AmbientLight() {
+export function AmbientLight({ style }: { style?: StyleProp<ViewStyle> }) {
   const { colors, glowOpacity } = useTheme();
   return (
-    <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+    <View pointerEvents="none" style={[StyleSheet.absoluteFill, style]}>
       <Svg width="100%" height="100%">
         <Defs>
           <RadialGradient id="glow" cx="190" cy="30" r="380" gradientUnits="userSpaceOnUse">
@@ -99,6 +109,25 @@ export function Screen({ children, style }: { children: ReactNode; style?: Style
     <View style={[{ flex: 1, backgroundColor: colors.background }, style]}>
       <AmbientLight />
       {children}
+      <StatusBarBackdrop />
+    </View>
+  );
+}
+
+// The app draws edge to edge, so scrolled content would otherwise pass behind
+// the clock and status icons. This repaints the screen's own background over
+// the status bar area, so content disappears there without a visible band.
+function StatusBarBackdrop() {
+  const { colors } = useTheme();
+  const insets = useSafeAreaInsets();
+  const { height } = useWindowDimensions();
+  if (!insets.top) return null;
+  return (
+    <View
+      pointerEvents="none"
+      style={{ position: 'absolute', top: 0, left: 0, right: 0, height: insets.top, overflow: 'hidden', backgroundColor: colors.background }}
+    >
+      <AmbientLight style={{ bottom: undefined, height }} />
     </View>
   );
 }
