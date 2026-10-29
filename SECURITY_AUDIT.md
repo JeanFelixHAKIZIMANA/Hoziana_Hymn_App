@@ -106,20 +106,20 @@ Nothing here can be done from code. None of these were changed by me.
 2. ~~Leaked password protection~~: needs the Pro plan, accepted for now (L-3). Editors should use long, unique passwords from a password manager. Sign-ups, anonymous sign-ins and email confirmation were checked 2026-10-29 and are set correctly.
 3. Authentication → Multi-Factor: make sure **TOTP** is enabled (needed for fix 2).
 4. Authentication → Attack Protection: consider **CAPTCHA** (Turnstile) on sign-in. Optional for a single editor; the built-in rate limits already apply.
-5. Authentication → URL Configuration: Site URL `https://hoziana-hymn-app.vercel.app`, and remove any wildcard redirect URLs.
+5. ~~Authentication → URL Configuration: Site URL `https://hoziana-hymn-app.vercel.app`, and remove any wildcard redirect URLs.~~ Done 2026-10-29 (stark; website sign-in still works).
 6. Database → Settings: turn on **Enforce SSL**. Network restrictions are optional (the phones need public access to the API, not the database port).
 7. Backups: the free plan has daily backups only, no PITR. The revision tables in fix 3 cover content recovery.
 8. Your Supabase **account**: turn on MFA for your login to supabase.com (Account → Security). Whoever holds this account holds everything.
 
 **Vercel**
-9. Settings → Deployment Protection: turn on **Vercel Authentication** for preview deployments.
+9. ~~Settings → Deployment Protection: turn on **Vercel Authentication** for preview deployments.~~ Done 2026-10-29 (stark).
 10. Settings → Environment Variables: nothing secret is needed today; if you ever add one, mark it **Sensitive** and scope it to Production.
 11. Your Vercel account: turn on MFA.
 
 **GitHub**
 12. Your GitHub account: confirm 2FA is on (it controls the code, the website deploys and the APKs).
 13. Settings → Code security: turn on **Secret scanning** and **Push protection** (free for public repos), and **Dependabot alerts**.
-14. Settings → Branches: protect `main` (require a pull request) so a stolen token can't push straight to production.
+14. ~~Settings → Branches: protect `main` (require a pull request).~~ Done 2026-10-29 (verified: `main` shows as protected).
 15. ~~Create the release keystore and add it as repository secrets.~~ Done 2026-10-29 (see 0b). **Back the keystore up**: losing it means testers must reinstall again.
 
 ---
