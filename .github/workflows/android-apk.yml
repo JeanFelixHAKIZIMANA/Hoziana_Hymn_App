@@ -33,7 +33,7 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
 
       # Fail in seconds rather than after the long build. The secrets are only handed to the
       # steps that need them, never to npm install.
