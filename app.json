@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Hoziana",
-    "slug": "hoziana",
+    "slug": "hozianahymnapp",
     "scheme": "hoziana",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -59,6 +59,12 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e8cd7dd4-c2d9-4eab-8e72-f34aaa0b96ca"
+      }
+    },
+    "owner": "stark-felixs-team"
   }
 }
