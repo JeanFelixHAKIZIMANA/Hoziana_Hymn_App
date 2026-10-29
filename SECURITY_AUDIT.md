@@ -102,7 +102,7 @@ Nothing here can be done from code. None of these were changed by me.
     backup, and have testers uninstall the old build once.
 
 **Supabase dashboard** (project `iellhbnzlofqbjqdsmro`)
-1. Authentication → Sign In / Providers: confirm **Allow new users to sign up** is **off** (I couldn't read this setting from here).
+1. ~~Confirm **Allow new users to sign up** is off.~~ Done 2026-10-29 (screenshot from stark).
 2. ~~Leaked password protection~~: needs the Pro plan, accepted for now (L-3). Editors should use long, unique passwords from a password manager. Sign-ups, anonymous sign-ins and email confirmation were checked 2026-10-29 and are set correctly.
 3. Authentication → Multi-Factor: make sure **TOTP** is enabled (needed for fix 2).
 4. Authentication → Attack Protection: consider **CAPTCHA** (Turnstile) on sign-in. Optional for a single editor; the built-in rate limits already apply.
@@ -120,7 +120,7 @@ Nothing here can be done from code. None of these were changed by me.
 12. Your GitHub account: confirm 2FA is on (it controls the code, the website deploys and the APKs).
 13. Settings → Code security: turn on **Secret scanning** and **Push protection** (free for public repos), and **Dependabot alerts**.
 14. Settings → Branches: protect `main` (require a pull request) so a stolen token can't push straight to production.
-15. For fix 7: create a release keystore on your laptop (`keytool -genkeypair ...`; I'll give exact steps) and add it as repository secrets. **Back the keystore up**: losing it means testers must reinstall again.
+15. ~~Create the release keystore and add it as repository secrets.~~ Done 2026-10-29 (see 0b). **Back the keystore up**: losing it means testers must reinstall again.
 
 ---
 
