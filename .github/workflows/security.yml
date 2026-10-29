@@ -61,5 +61,5 @@ jobs:
       image: semgrep/semgrep
     steps:
       - uses: actions/checkout@v4
-      # Report-only for now: switch to `--error` once the first results have been reviewed.
-      - run: semgrep scan --config p/javascript --config p/typescript --config p/react --exclude src/data/hymns.json
+      # The first run (2026-10-29) found nothing, so any new finding fails the check.
+      - run: semgrep scan --error --config p/javascript --config p/typescript --config p/react --exclude src/data/hymns.json

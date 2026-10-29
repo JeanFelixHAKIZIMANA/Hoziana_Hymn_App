@@ -33,7 +33,8 @@ schema, as expected. `npm audit`: website 0; app unchanged (3 High / 5 Low in Ex
 the full history found no secrets. The Supabase advisors will change only after you run the migrations; I'll
 re-run them (read-only) when you tell me they're done. Not verified here: an actual APK build, because the
 Android SDK can't be downloaded in this environment (CI builds it), and Semgrep, because its rule registry is
-blocked here (the CI job reports only, for now).
+blocked here. On the PR, CI ran everything green: gitleaks clean, Semgrep 0 findings on 74 rules (the job now
+fails on any new finding), RLS tests pass on GitHub's Postgres, dependency audit passes.
 
 ## Executive summary
 
