@@ -3,23 +3,23 @@
 Audited 2026-10-28 against `main` at `84a44b7`. Standards: OWASP ASVS L2, MASVS, Top 10.
 Status (2026-10-29): **Phase 3 done for the approved set.** Approved: fix 7 using an EC (P-256) signing key,
 plus safe fixes 1, 3, 4, 6, 8, 9 and 10. On hold: fix 2 (sign-in codes) and fix 5 (website headers).
-**The database migrations are written and tested but not yet run on the live project:** run them in the
-Supabase SQL editor (see "Manual actions for you", item 0).
+The four database migrations were run on the live project by stark on 2026-10-29 and checked read-only
+afterwards (see "Live check" below). APKs are signed with the choir's EC key (CI run #15).
 
 ## Finding status
 
 | ID | Status | What changed |
 |---|---|---|
 | H-1 | **Deferred** (on hold) | Needs MFA in the website first, then an `aal2` rule. Waiting for your go-ahead. |
-| H-2 | **Fixed** (app) / **Fixed, run migration** (DB) | `shared/hymn-validate.ts`; `src/data/content.ts`, `content-cache.ts`, `hymnal.ts`: bad rows skipped, bad saved copy dropped, startup falls back to the shipped book. `supabase/migrations/20261029100000_content_checks.sql`. |
-| M-1 | **Fixed, run migration** | `20261029100100_edit_history_and_policies.sql`: `content_revisions` history, insert/update policies only, no delete. How to undo an edit: `docs/content-website.md`. |
-| M-2 | **Fixed, needs your key** | `plugins/with-release-signing.js` + `.github/workflows/android-apk.yml`: EC P-256 key from secrets, build fails without it and refuses a debug-signed APK. Steps: `docs/android-signing.md`. |
+| H-2 | **Fixed** (app) / **Fixed** (DB) | `shared/hymn-validate.ts`; `src/data/content.ts`, `content-cache.ts`, `hymnal.ts`: bad rows skipped, bad saved copy dropped, startup falls back to the shipped book. `supabase/migrations/20261029100000_content_checks.sql`. |
+| M-1 | **Fixed** | `20261029100100_edit_history_and_policies.sql`: `content_revisions` history, insert/update policies only, no delete. How to undo an edit: `docs/content-website.md`. |
+| M-2 | **Fixed** | `plugins/with-release-signing.js` + `.github/workflows/android-apk.yml`: EC P-256 key from secrets, build fails without it and refuses a debug-signed APK. Steps: `docs/android-signing.md`. |
 | M-3 | **Deferred** (on hold) | Waiting for your go-ahead to add `admin/vercel.json` and check it on a preview. |
-| M-4 | **Fixed, run migration** | `20261029100200_media_bucket_limits.sql`: 5 MB, JPEG/PNG/WebP. Also lets editors see the bucket, so "remove old photo" actually deletes it. |
-| L-1 | **Fixed, run migration** | `20261029100300_tighten_grants.sql`. |
-| L-2 | **Fixed, run migration** | `(select auth.uid())`, per-operation policies, `updated_by` indexes. |
-| L-3 | **Manual** | Action 2 below. |
-| L-4 | **Fixed** (website) / **Fixed, run migration** (policy) | `admin/src/AboutEditor.tsx` re-encodes photos to JPEG (EXIF/GPS removed, max 2400 px); update policy has `with check`. |
+| M-4 | **Fixed** | `20261029100200_media_bucket_limits.sql`: 5 MB, JPEG/PNG/WebP. Also lets editors see the bucket, so "remove old photo" actually deletes it. |
+| L-1 | **Fixed** | `20261029100300_tighten_grants.sql`. |
+| L-2 | **Fixed** | `(select auth.uid())`, per-operation policies, `updated_by` indexes. |
+| L-3 | **Accepted** (free plan) | Leaked-password protection needs the Supabase Pro plan. stark confirmed 2026-10-29: sign-ups off, anonymous sign-ins off, email confirmation on. Covered instead by long unique editor passwords and, later, MFA (H-1). Turn it on if the project moves to Pro. |
+| L-4 | **Fixed** (website) / **Fixed** (policy) | `admin/src/AboutEditor.tsx` re-encodes photos to JPEG (EXIF/GPS removed, max 2400 px); update policy has `with check`. |
 | L-5 | **Fixed** | `app.json`: `allowBackup: false`; `SYSTEM_ALERT_WINDOW` and storage permissions removed (checked in the generated manifest). |
 | L-6 | **Fixed** | `src/app/hymn/[number].tsx`: the back label from a link is shown only if it's one of the app's screen names. |
 | L-7 | **Deferred** | Forcing zod 4 into Expo's CLI risks breaking `expo start`, for an advisory that only affects the dev server on your laptop. The audit job fails on Critical for the app until Expo ships the patch. |
@@ -30,11 +30,19 @@ Supabase SQL editor (see "Manual actions for you", item 0).
 and the new `check:content` accepts all 136 hymns and rejects 12 kinds of damaged rows. The website builds. RLS
 tests: 48 role checks and one database check pass on Postgres 16 with all migrations applied twice. The same tests fail against the old
 schema, as expected. `npm audit`: website 0; app unchanged (3 High / 5 Low in Expo's CLI, L-7). Secret scan of
-the full history found no secrets. The Supabase advisors will change only after you run the migrations; I'll
-re-run them (read-only) when you tell me they're done. Not verified here: an actual APK build, because the
-Android SDK can't be downloaded in this environment (CI builds it), and Semgrep, because its rule registry is
+the full history found no secrets. The APK build was verified in CI: run #15 signed it with
+`CN=Hoziana Choir, C=RW` (apksigner v2), not the debug key. Not verified here: Semgrep, because its rule registry is
 blocked here. On the PR, CI ran everything green: gitleaks clean, Semgrep 0 findings on 74 rules (the job now
 fails on any new finding), RLS tests pass on GitHub's Postgres, dependency audit passes.
+
+**Live check (2026-10-29, after the migrations, read-only).** On project `iellhbnzlofqbjqdsmro`:
+all 8 check constraints exist on `hymns` and `pages`; `content_revisions` exists with the `hymns_history` and
+`pages_history` triggers; `hymns` and `pages` have only read, insert and update policies (no delete);
+`content_revisions` is readable by editors only; the `media` bucket is limited to 5 MB and JPEG/PNG/WebP and has
+select, insert, update and delete policies for editors; both `updated_by` indexes exist. Security advisor: only
+`auth_leaked_password_protection` remains (L-3, manual action 2). Performance advisor: the earlier
+`unindexed_foreign_keys`, `auth_rls_initplan` and `multiple_permissive_policies` warnings are gone; the only notes
+are "unused index" on the four new indexes, which is expected because they were just created.
 
 ## Executive summary
 
@@ -85,33 +93,34 @@ changes a flow or could lock you out if done in the wrong order.
 Nothing here can be done from code. None of these were changed by me.
 
 **Run the new migrations** (approved fixes; I didn't touch the live database)
-0. In the Supabase SQL editor, run each file in `supabase/migrations/` in name order (four files). Each one
-   can be run twice safely and has rollback notes at the top. Then tell me, and I'll re-run the advisors.
+0. ~~Run the four files in `supabase/migrations/` in the SQL editor.~~ Done 2026-10-29. Future database
+   changes go in new files there, run in name order.
 
 **Android signing key** (fix 7)
-0b. Follow `docs/android-signing.md`: create the EC key on your laptop, back it up, add the three
-    `HOZIANA_*` secrets. Until then the APK workflow stops with a clear message. Testers uninstall once.
+0b. ~~Create the EC key and add the three `HOZIANA_*` secrets.~~ Done 2026-10-29. Still to do: delete the
+    plaintext password file next to the key, keep the key and password only in a password manager or encrypted
+    backup, and have testers uninstall the old build once.
 
 **Supabase dashboard** (project `iellhbnzlofqbjqdsmro`)
-1. Authentication → Sign In / Providers: confirm **Allow new users to sign up** is **off** (I couldn't read this setting from here).
-2. Authentication → Attack Protection: turn on **Leaked password protection** (flagged by the Security Advisor) and set minimum password length to 12+ with mixed characters.
-3. Authentication → Multi-Factor: make sure **TOTP** is enabled (needed for fix 2).
+1. ~~Confirm **Allow new users to sign up** is off.~~ Done 2026-10-29 (screenshot from stark).
+2. ~~Leaked password protection~~: needs the Pro plan, accepted for now (L-3). Editors should use long, unique passwords from a password manager. Sign-ups, anonymous sign-ins and email confirmation were checked 2026-10-29 and are set correctly.
+3. ~~Authentication → Multi-Factor: make sure **TOTP** is enabled.~~ Done 2026-10-29 (stark).
 4. Authentication → Attack Protection: consider **CAPTCHA** (Turnstile) on sign-in. Optional for a single editor; the built-in rate limits already apply.
-5. Authentication → URL Configuration: Site URL `https://hoziana-hymn-app.vercel.app`, and remove any wildcard redirect URLs.
-6. Database → Settings: turn on **Enforce SSL**. Network restrictions are optional (the phones need public access to the API, not the database port).
+5. ~~Authentication → URL Configuration: Site URL `https://hoziana-hymn-app.vercel.app`, and remove any wildcard redirect URLs.~~ Done 2026-10-29 (stark; website sign-in still works).
+6. ~~Database → Settings: turn on **Enforce SSL**.~~ Done 2026-10-29 (stark). Network restrictions are optional (the phones need public access to the API, not the database port).
 7. Backups: the free plan has daily backups only, no PITR. The revision tables in fix 3 cover content recovery.
-8. Your Supabase **account**: turn on MFA for your login to supabase.com (Account → Security). Whoever holds this account holds everything.
+8. ~~Your Supabase **account**: turn on MFA.~~ Done 2026-10-29 (two authenticator apps, screenshot from stark).
 
 **Vercel**
-9. Settings → Deployment Protection: turn on **Vercel Authentication** for preview deployments.
+9. ~~Settings → Deployment Protection: turn on **Vercel Authentication** for preview deployments.~~ Done 2026-10-29 (stark).
 10. Settings → Environment Variables: nothing secret is needed today; if you ever add one, mark it **Sensitive** and scope it to Production.
-11. Your Vercel account: turn on MFA.
+11. ~~Your Vercel account: turn on MFA.~~ Done 2026-10-29 (stark).
 
 **GitHub**
-12. Your GitHub account: confirm 2FA is on (it controls the code, the website deploys and the APKs).
-13. Settings → Code security: turn on **Secret scanning** and **Push protection** (free for public repos), and **Dependabot alerts**.
-14. Settings → Branches: protect `main` (require a pull request) so a stolen token can't push straight to production.
-15. For fix 7: create a release keystore on your laptop (`keytool -genkeypair ...`; I'll give exact steps) and add it as repository secrets. **Back the keystore up**: losing it means testers must reinstall again.
+12. ~~Your GitHub account: confirm 2FA is on.~~ Done 2026-10-29 (stark).
+13. ~~Settings → Code security: turn on **Secret scanning**, **Push protection** and **Dependabot alerts**.~~ Done 2026-10-29 (stark).
+14. ~~Settings → Branches: protect `main` (require a pull request).~~ Done 2026-10-29 (verified: `main` shows as protected).
+15. ~~Create the release keystore and add it as repository secrets.~~ Done 2026-10-29 (see 0b). **Back the keystore up**: losing it means testers must reinstall again.
 
 ---
 
