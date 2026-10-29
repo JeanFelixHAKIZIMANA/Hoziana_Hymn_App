@@ -41,7 +41,8 @@
     "build:icons": "node scripts/build-icons.mjs",
     "build:hymns": "python3 scripts/parse_hymnal.py",
     "build:seed": "node scripts/build-seed.mjs",
-    "check:hymn-text": "node --experimental-strip-types scripts/check-hymn-text.mjs"
+    "check:hymn-text": "node --experimental-strip-types scripts/check-hymn-text.mjs",
+    "check:content": "node --experimental-strip-types scripts/check-content-validation.mjs"
   },
   "private": true
 }

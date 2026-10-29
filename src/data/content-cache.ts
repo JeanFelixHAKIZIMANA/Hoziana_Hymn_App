@@ -1,4 +1,5 @@
 import type { Hymn } from '../../shared/hymnal-types';
+import { isHymn } from '../../shared/hymn-validate';
 import { storage } from './storage';
 
 // Content edited on the website, as last downloaded. Kept on the device so the
@@ -16,7 +17,16 @@ const KEY = 'hoziana/content/v1';
 export function readCache(): ContentCache {
   try {
     const raw = storage.get(KEY);
-    if (raw) return JSON.parse(raw) as ContentCache;
+    if (raw) {
+      const saved = JSON.parse(raw) as ContentCache;
+      // Drop anything damaged, so a bad copy on the phone can't stop the app from opening.
+      const hymns: ContentCache['hymns'] = {};
+      for (const [number, h] of Object.entries(saved.hymns ?? {})) if (h === null || isHymn(h)) hymns[Number(number)] = h;
+      const pages: ContentCache['pages'] = {};
+      for (const [slug, p] of Object.entries(saved.pages ?? {}))
+        if (typeof p?.title === 'string' && typeof p.body === 'string') pages[slug] = p;
+      return { hymns, pages, since: typeof saved.since === 'string' ? saved.since : null };
+    }
   } catch {
     // A damaged cache only costs a full download on the next sync.
   }
@@ -25,4 +35,8 @@ export function readCache(): ContentCache {
 
 export function writeCache(cache: ContentCache) {
   storage.set(KEY, JSON.stringify(cache));
+}
+
+export function clearCache() {
+  writeCache({ hymns: {}, pages: {}, since: null });
 }
