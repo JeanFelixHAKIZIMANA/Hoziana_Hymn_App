@@ -1,14 +1,12 @@
 import type { TextStyle } from 'react-native';
-import {
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-} from '@expo-google-fonts/inter';
-import {
-  SourceSerif4_400Regular,
-  SourceSerif4_400Regular_Italic,
-  SourceSerif4_500Medium,
-} from '@expo-google-fonts/source-serif-4';
+// Imported one face at a time: the packages' index files pull in every weight,
+// which would ship all 34 font files in the app instead of these 6.
+import { Inter_400Regular } from '@expo-google-fonts/inter/400Regular';
+import { Inter_500Medium } from '@expo-google-fonts/inter/500Medium';
+import { Inter_600SemiBold } from '@expo-google-fonts/inter/600SemiBold';
+import { SourceSerif4_400Regular } from '@expo-google-fonts/source-serif-4/400Regular';
+import { SourceSerif4_400Regular_Italic } from '@expo-google-fonts/source-serif-4/400Regular_Italic';
+import { SourceSerif4_500Medium } from '@expo-google-fonts/source-serif-4/500Medium';
 
 // Each face is registered under its own family name, so styles pick a face with
 // fontFamily alone (fontWeight is not reliable with custom fonts on Android).
