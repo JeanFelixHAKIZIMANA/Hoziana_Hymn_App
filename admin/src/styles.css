@@ -130,3 +130,8 @@ label.button { flex-direction: row; }
 .part { width: 52px; flex: none; font: 500 11px/27px Inter, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-2); font-style: normal; }
 .overline { font: 500 11px/20px Inter, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-2); font-style: normal; }
 .rep { font: 13px Inter, sans-serif; color: var(--text-2); font-style: normal; }
+
+/* Sign-in codes (Mfa.tsx) */
+.login > .small { margin-top: 16px; }
+.qr { display: block; margin: 0 auto; background: #fff; border-radius: 8px; padding: 8px; }
+.secret { display: block; word-break: break-all; font-size: 15px; letter-spacing: 1px; user-select: all; }

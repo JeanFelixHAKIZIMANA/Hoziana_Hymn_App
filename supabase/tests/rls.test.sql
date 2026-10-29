@@ -10,7 +10,8 @@ begin;
 
 -- Runs one statement as a role with a fake JWT, and checks the outcome:
 -- 'denied' (an error), 'ok' (no error), or 'rows:N' (no error and exactly N rows read or changed).
-create function pg_temp.check(label text, as_role text, uid uuid, stmt text, expect text) returns void
+-- Signed-in users have passed the authenticator-code step (aal2) unless aal says otherwise.
+create function pg_temp.check(label text, as_role text, uid uuid, stmt text, expect text, aal text default 'aal2') returns void
 language plpgsql as $$
 declare
   n bigint;
@@ -18,7 +19,7 @@ declare
 begin
   perform set_config('request.jwt.claims',
     case when uid is null then json_build_object('role', as_role)::text
-         else json_build_object('sub', uid, 'role', as_role, 'aal', 'aal1')::text end, true);
+         else json_build_object('sub', uid, 'role', as_role, 'aal', aal)::text end, true);
   execute format('set local role %I', as_role);
   begin
     execute stmt;
@@ -91,6 +92,21 @@ select pg_temp.check('writes edit history', 'authenticated', :A,
 select pg_temp.check('uploads a photo', 'authenticated', :A, $q$insert into storage.objects (bucket_id, name) values ('media', 'x.jpg')$q$, 'denied');
 select pg_temp.check('replaces a photo (no rows match)', 'authenticated', :B, $q$update storage.objects set name = 'y.jpg' where bucket_id = 'media'$q$, 'rows:0');
 select pg_temp.check('deletes a photo (no rows match)', 'authenticated', :B, $q$delete from storage.objects where bucket_id = 'media'$q$, 'rows:0');
+
+-- An editor who signed in with only the password (no authenticator code yet, aal1): can see they're an editor,
+-- so the website can ask for the code, but can't change or read anything editor-only (audit H-1).
+select pg_temp.check('sees own editors row (password only)', 'authenticated', :E, 'select * from public.editors', 'rows:1', 'aal1');
+select pg_temp.check('adds a hymn (password only)', 'authenticated', :E,
+  $q$insert into public.hymns (number, title) values (9003, 'x')$q$, 'denied', 'aal1');
+select pg_temp.check('changes a hymn (password only)', 'authenticated', :E,
+  $q$update public.hymns set title = 'x' where number = 9001$q$, 'rows:0', 'aal1');
+select pg_temp.check('saves the About page (password only)', 'authenticated', :E,
+  $q$update public.pages set body = 'x' where slug = 'test-page'$q$, 'rows:0', 'aal1');
+select pg_temp.check('reads edit history (password only)', 'authenticated', :E, 'select * from public.content_revisions', 'rows:0', 'aal1');
+select pg_temp.check('uploads a photo (password only)', 'authenticated', :E,
+  $q$insert into storage.objects (bucket_id, name) values ('media', 'about/aal1.jpg')$q$, 'denied', 'aal1');
+select pg_temp.check('deletes a photo (password only)', 'authenticated', :E,
+  $q$delete from storage.objects where bucket_id = 'media'$q$, 'rows:0', 'aal1');
 
 -- The editor: adds and changes hymns and pages, sees the history, can't delete or bypass the content checks.
 select pg_temp.check('sees own editors row', 'authenticated', :E, 'select * from public.editors', 'rows:1');
