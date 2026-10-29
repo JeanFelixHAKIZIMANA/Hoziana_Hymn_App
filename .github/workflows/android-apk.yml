@@ -5,11 +5,12 @@ name: Android test APK
 
 on:
   push:
-    branches: [main, claude/project-thread-if83et]
+    branches: [main]
   workflow_dispatch:
 
+# Read-only by default; only the release job below can write (to publish the APK).
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: android-apk-${{ github.ref }}
@@ -34,6 +35,19 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
 
+      # Fail in seconds rather than after the long build. The secrets are only handed to the
+      # steps that need them, never to npm install.
+      - name: Check the signing key is set up
+        env:
+          HOZIANA_KEYSTORE_BASE64: ${{ secrets.HOZIANA_KEYSTORE_BASE64 }}
+          HOZIANA_KEYSTORE_PASSWORD: ${{ secrets.HOZIANA_KEYSTORE_PASSWORD }}
+          HOZIANA_KEY_ALIAS: ${{ secrets.HOZIANA_KEY_ALIAS }}
+        run: |
+          if [ -z "$HOZIANA_KEYSTORE_BASE64" ] || [ -z "$HOZIANA_KEYSTORE_PASSWORD" ] || [ -z "$HOZIANA_KEY_ALIAS" ]; then
+            echo "::error::Add the HOZIANA_KEYSTORE_BASE64, HOZIANA_KEYSTORE_PASSWORD and HOZIANA_KEY_ALIAS repository secrets (see docs/android-signing.md)."
+            exit 1
+          fi
+
       - run: npm ci
 
       # Generates the native android/ project from app.json (it is not committed).
@@ -41,11 +55,31 @@ jobs:
         env:
           CI: 1
 
-      # Release build, signed with the debug key: fine for sideloading, not for Play.
-      # arm64-v8a only, which covers almost every phone from the last ~8 years.
+      # Signed with the Hoziana release key (an EC P-256 key) from the repository secrets;
+      # see plugins/with-release-signing.js. arm64-v8a only, which covers almost every phone
+      # from the last ~8 years.
       - name: Build APK
         working-directory: android
-        run: ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a --no-daemon
+        env:
+          HOZIANA_KEYSTORE_BASE64: ${{ secrets.HOZIANA_KEYSTORE_BASE64 }}
+          HOZIANA_KEYSTORE_PASSWORD: ${{ secrets.HOZIANA_KEYSTORE_PASSWORD }}
+          HOZIANA_KEY_ALIAS: ${{ secrets.HOZIANA_KEY_ALIAS }}
+        run: |
+          export HOZIANA_KEYSTORE_FILE="$RUNNER_TEMP/hoziana-release.p12"
+          echo "$HOZIANA_KEYSTORE_BASE64" | base64 -d > "$HOZIANA_KEYSTORE_FILE"
+          ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a --no-daemon
+          rm -f "$HOZIANA_KEYSTORE_FILE"
+
+      # Refuse to publish an APK signed with the shared debug key.
+      - name: Check the APK signature
+        run: |
+          APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -1)
+          CERT=$("$APKSIGNER" verify --print-certs android/app/build/outputs/apk/release/app-release.apk)
+          echo "$CERT" | grep -E "Signer #1 certificate (DN|SHA-256)"
+          if echo "$CERT" | grep -q "CN=Android Debug"; then
+            echo "::error::The APK is signed with the debug key."
+            exit 1
+          fi
 
       - name: Name the APK
         run: |
@@ -56,6 +90,17 @@ jobs:
         with:
           name: hoziana-apk
           path: out/*.apk
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: hoziana-apk
+          path: out
 
       - uses: softprops/action-gh-release@v2
         with:

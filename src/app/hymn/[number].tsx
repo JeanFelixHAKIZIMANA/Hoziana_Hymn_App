@@ -12,7 +12,7 @@ import {
   type ScrollViewInstance,
 } from 'react-native';
 
-import { getHymn, isNavigable, neighbours, playlistOf, verseCount, type Hymn } from '@/data/hymnal';
+import { getHymn, isNavigable, neighbours, playlistOf, playlists, verseCount, type Hymn } from '@/data/hymnal';
 import { userActions, useUserState } from '@/data/user-store';
 import {
   IconButton,
@@ -34,7 +34,14 @@ export default function ReaderScreen() {
   const hymn = getHymn(Number(params.number));
   if (!hymn) return null;
   // Keyed so verse positions reset when moving to the next or previous hymn.
-  return <Reader key={hymn.number} hymn={hymn} from={params.from} />;
+  return <Reader key={hymn.number} hymn={hymn} from={backLabelFor(params.from)} />;
+}
+
+// `from` arrives in the link, so any app or website can set it: only the app's own screen names are shown.
+function backLabelFor(from?: string) {
+  if (!from) return undefined;
+  const known = from === t.search.title || from === t.favorites.title || playlists.some((p) => t.playlists.volume(p.label) === from);
+  return known ? from : undefined;
 }
 
 function Reader({ hymn, from }: { hymn: Hymn; from?: string }) {
