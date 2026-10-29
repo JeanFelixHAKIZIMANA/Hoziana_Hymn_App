@@ -1,7 +1,39 @@
 # Security audit: Hoziana hymnal app, content website and Supabase
 
 Audited 2026-10-28 against `main` at `84a44b7`. Standards: OWASP ASVS L2, MASVS, Top 10.
-Status: **Phases 0 to 2 done. Nothing has been changed yet; fixes wait for approval.**
+Status (2026-10-29): **Phase 3 done for the approved set.** Approved: fix 7 using an EC (P-256) signing key,
+plus safe fixes 1, 3, 4, 6, 8, 9 and 10. On hold: fix 2 (sign-in codes) and fix 5 (website headers).
+**The database migrations are written and tested but not yet run on the live project:** run them in the
+Supabase SQL editor (see "Manual actions for you", item 0).
+
+## Finding status
+
+| ID | Status | What changed |
+|---|---|---|
+| H-1 | **Deferred** (on hold) | Needs MFA in the website first, then an `aal2` rule. Waiting for your go-ahead. |
+| H-2 | **Fixed** (app) / **Fixed, run migration** (DB) | `shared/hymn-validate.ts`; `src/data/content.ts`, `content-cache.ts`, `hymnal.ts`: bad rows skipped, bad saved copy dropped, startup falls back to the shipped book. `supabase/migrations/20261029100000_content_checks.sql`. |
+| M-1 | **Fixed, run migration** | `20261029100100_edit_history_and_policies.sql`: `content_revisions` history, insert/update policies only, no delete. How to undo an edit: `docs/content-website.md`. |
+| M-2 | **Fixed, needs your key** | `plugins/with-release-signing.js` + `.github/workflows/android-apk.yml`: EC P-256 key from secrets, build fails without it and refuses a debug-signed APK. Steps: `docs/android-signing.md`. |
+| M-3 | **Deferred** (on hold) | Waiting for your go-ahead to add `admin/vercel.json` and check it on a preview. |
+| M-4 | **Fixed, run migration** | `20261029100200_media_bucket_limits.sql`: 5 MB, JPEG/PNG/WebP. Also lets editors see the bucket, so "remove old photo" actually deletes it. |
+| L-1 | **Fixed, run migration** | `20261029100300_tighten_grants.sql`. |
+| L-2 | **Fixed, run migration** | `(select auth.uid())`, per-operation policies, `updated_by` indexes. |
+| L-3 | **Manual** | Action 2 below. |
+| L-4 | **Fixed** (website) / **Fixed, run migration** (policy) | `admin/src/AboutEditor.tsx` re-encodes photos to JPEG (EXIF/GPS removed, max 2400 px); update policy has `with check`. |
+| L-5 | **Fixed** | `app.json`: `allowBackup: false`; `SYSTEM_ALERT_WINDOW` and storage permissions removed (checked in the generated manifest). |
+| L-6 | **Fixed** | `src/app/hymn/[number].tsx`: the back label from a link is shown only if it's one of the app's screen names. |
+| L-7 | **Deferred** | Forcing zod 4 into Expo's CLI risks breaking `expo start`, for an advisory that only affects the dev server on your laptop. The audit job fails on Critical for the app until Expo ships the patch. |
+| L-8 | **Partly fixed** | APK workflow: read-only token except the release job, stale branch removed. Actions are still pinned by version tag, not commit SHA; Dependabot (`.github/dependabot.yml`) now keeps them updated. |
+| L-9 | **Fixed** | `.github/workflows/security.yml` runs gitleaks on every push and PR (`.gitleaks.toml` only exempts publishable keys). Also turn on push protection (action 13). |
+
+**Verification (Phase 4, 2026-10-29).** Type-check and lint are clean. `check:hymn-text` passes for 136/136 hymns,
+and the new `check:content` accepts all 136 hymns and rejects 12 kinds of damaged rows. The website builds. RLS
+tests: 48 role checks and one database check pass on Postgres 16 with all migrations applied twice. The same tests fail against the old
+schema, as expected. `npm audit`: website 0; app unchanged (3 High / 5 Low in Expo's CLI, L-7). Secret scan of
+the full history found no secrets. The Supabase advisors will change only after you run the migrations; I'll
+re-run them (read-only) when you tell me they're done. Not verified here: an actual APK build, because the
+Android SDK can't be downloaded in this environment (CI builds it), and Semgrep, because its rule registry is
+blocked here (the CI job reports only, for now).
 
 ## Executive summary
 
@@ -50,6 +82,14 @@ changes a flow or could lock you out if done in the wrong order.
 ## Manual actions for you
 
 Nothing here can be done from code. None of these were changed by me.
+
+**Run the new migrations** (approved fixes; I didn't touch the live database)
+0. In the Supabase SQL editor, run each file in `supabase/migrations/` in name order (four files). Each one
+   can be run twice safely and has rollback notes at the top. Then tell me, and I'll re-run the advisors.
+
+**Android signing key** (fix 7)
+0b. Follow `docs/android-signing.md`: create the EC key on your laptop, back it up, add the three
+    `HOZIANA_*` secrets. Until then the APK workflow stops with a clear message. Testers uninstall once.
 
 **Supabase dashboard** (project `iellhbnzlofqbjqdsmro`)
 1. Authentication → Sign In / Providers: confirm **Allow new users to sign up** is **off** (I couldn't read this setting from here).
