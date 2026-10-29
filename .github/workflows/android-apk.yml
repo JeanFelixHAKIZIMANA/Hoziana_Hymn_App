@@ -71,11 +71,21 @@ jobs:
           rm -f "$HOZIANA_KEYSTORE_FILE"
 
       # Refuse to publish an APK signed with the shared debug key.
+      # The certificate printed here is public (anyone can read it from the APK).
       - name: Check the APK signature
         run: |
           APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -1)
-          CERT=$("$APKSIGNER" verify --print-certs android/app/build/outputs/apk/release/app-release.apk)
-          echo "$CERT" | grep -E "Signer #1 certificate (DN|SHA-256)"
+          echo "Using $APKSIGNER"
+          if ! CERT=$("$APKSIGNER" verify --print-certs android/app/build/outputs/apk/release/app-release.apk 2>&1); then
+            echo "$CERT"
+            echo "::error::apksigner could not verify the APK."
+            exit 1
+          fi
+          echo "$CERT"
+          if ! echo "$CERT" | grep -q "certificate DN"; then
+            echo "::error::Couldn't find the signer's certificate in apksigner's output."
+            exit 1
+          fi
           if echo "$CERT" | grep -q "CN=Android Debug"; then
             echo "::error::The APK is signed with the debug key."
             exit 1
