@@ -15,7 +15,7 @@ jobs:
     name: Secret scan (gitleaks)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: gitleaks/gitleaks-action@v2
@@ -26,7 +26,7 @@ jobs:
     name: Dependency audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       # The app: Expo's command-line tools currently pull in an old zod with a High advisory that
       # only affects the dev server on your laptop (SECURITY_AUDIT.md L-7), so only Critical fails here.
       # Raise this to high once Expo ships the patched version.
@@ -48,7 +48,7 @@ jobs:
         options: >-
           --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Apply schema and migrations, then run the tests
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
@@ -60,6 +60,6 @@ jobs:
     container:
       image: semgrep/semgrep
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       # The first run (2026-10-29) found nothing, so any new finding fails the check.
       - run: semgrep scan --error --config p/javascript --config p/typescript --config p/react --exclude src/data/hymns.json
