@@ -1,5 +1,7 @@
 -- Hoziana content: run once in the Supabase SQL editor (Project → SQL → New query).
 -- Everyone can read published content; only people listed in `editors` can change it.
+-- Then run each file in supabase/migrations/ in name order. Don't re-run this file afterwards:
+-- it would bring back the older, broader write policies the migrations replace.
 
 create table if not exists public.hymns (
   number      int primary key,

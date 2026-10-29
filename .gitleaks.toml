@@ -1,0 +1,10 @@
+# gitleaks settings for the security workflow. Everything in the default rules applies,
+# except Supabase *publishable* keys, which are public by design and committed in .env and admin/.env.
+# A secret key (sb_secret_...) or service_role JWT is still reported.
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Supabase publishable keys are meant to be public"
+regexTarget = "match"
+regexes = ['''sb_publishable_[A-Za-z0-9_-]+''']

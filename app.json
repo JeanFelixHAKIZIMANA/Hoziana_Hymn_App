@@ -20,7 +20,13 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "allowBackup": false,
+      "blockedPermissions": [
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -35,9 +41,13 @@
           "backgroundColor": "#F8F6F1",
           "image": "./assets/splash-logo-light.png",
           "imageWidth": 200,
-          "dark": { "image": "./assets/splash-logo-dark.png", "backgroundColor": "#141312" }
+          "dark": {
+            "image": "./assets/splash-logo-dark.png",
+            "backgroundColor": "#141312"
+          }
         }
-      ]
+      ],
+      "./plugins/with-release-signing"
     ],
     "experiments": {
       "typedRoutes": true

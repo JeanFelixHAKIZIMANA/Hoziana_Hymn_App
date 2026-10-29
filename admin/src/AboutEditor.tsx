@@ -2,6 +2,27 @@ import { useEffect, useState } from 'react';
 
 import { mediaUrl, supabase, type PageRow } from './supabase';
 
+const PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+const MAX_SIDE = 2400;
+
+// Redraws the photo as a fresh JPEG: drops camera metadata such as GPS location (the photo is
+// public), applies the camera's rotation, and scales very large photos down.
+async function reencode(file: File): Promise<Blob> {
+  const bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });
+  const scale = Math.min(1, MAX_SIDE / Math.max(bitmap.width, bitmap.height));
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.round(bitmap.width * scale);
+  canvas.height = Math.round(bitmap.height * scale);
+  const ctx = canvas.getContext('2d')!;
+  ctx.fillStyle = '#ffffff'; // transparent PNG areas become white, not black
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+  bitmap.close();
+  return new Promise((resolve, reject) =>
+    canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('encode failed'))), 'image/jpeg', 0.88),
+  );
+}
+
 export function AboutEditor() {
   const [page, setPage] = useState<PageRow | null>(null);
   const [saved, setSaved] = useState('');
@@ -40,12 +61,21 @@ export function AboutEditor() {
   };
 
   const upload = async (file: File) => {
-    if (!file.type.startsWith('image/')) return setStatus({ kind: 'error', text: 'Choose an image file (JPG or PNG).' });
-    if (file.size > 5 * 1024 * 1024) return setStatus({ kind: 'error', text: 'That photo is over 5 MB. Choose a smaller one.' });
+    if (!PHOTO_TYPES.includes(file.type)) return setStatus({ kind: 'error', text: 'Choose a JPG, PNG or WebP photo.' });
     setBusy(true);
+    const photo = await reencode(file).catch(() => null);
+    if (!photo) {
+      setBusy(false);
+      return setStatus({ kind: 'error', text: 'That photo couldn’t be read. Try another one.' });
+    }
+    if (photo.size > 5 * 1024 * 1024) {
+      setBusy(false);
+      return setStatus({ kind: 'error', text: 'That photo is over 5 MB. Choose a smaller one.' });
+    }
     // A new name each time, so phones never show an old cached photo.
-    const path = `about/${Date.now()}-${file.name.toLowerCase().replace(/[^a-z0-9.]+/g, '-')}`;
-    const { error } = await supabase.storage.from('media').upload(path, file, { contentType: file.type });
+    const name = file.name.toLowerCase().replace(/\.[a-z0-9]+$/, '').replace(/[^a-z0-9]+/g, '-').slice(0, 60);
+    const path = `about/${Date.now()}-${name || 'photo'}.jpg`;
+    const { error } = await supabase.storage.from('media').upload(path, photo, { contentType: 'image/jpeg' });
     setBusy(false);
     if (error) return setStatus({ kind: 'error', text: error.message });
     const old = page.image_path;
@@ -107,7 +137,7 @@ export function AboutEditor() {
                 {page.image_path ? 'Replace photo' : 'Upload photo'}
                 <input
                   type="file"
-                  accept="image/*"
+                  accept="image/jpeg,image/png,image/webp"
                   hidden
                   disabled={busy}
                   onChange={(e) => e.target.files?.[0] && upload(e.target.files[0])}

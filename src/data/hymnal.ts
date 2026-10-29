@@ -1,6 +1,6 @@
 import book from './hymns.json';
 
-import { readCache } from './content-cache';
+import { clearCache, readCache } from './content-cache';
 import type { Hymn, Stanza } from '../../shared/hymnal-types';
 
 export type { Hymn, LyricLine, Stanza } from '../../shared/hymnal-types';
@@ -116,4 +116,13 @@ export function searchHymns(query: string, within?: Playlist) {
   return { titles, lyrics };
 }
 
-applyContent(readCache().hymns);
+try {
+  applyContent(readCache().hymns);
+} catch {
+  // Never let saved edits stop the app from opening: fall back to the book as shipped.
+  // The next sync downloads everything again.
+  try {
+    clearCache();
+  } catch {}
+  applyContent({});
+}

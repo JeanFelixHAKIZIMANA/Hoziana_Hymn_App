@@ -15,7 +15,10 @@ in `admin/` is plain static files, hosted for free on [Vercel](https://vercel.co
 2. Open **SQL Editor → New query**, paste all of `supabase/schema.sql`, and press **Run**.
 3. Open another query, paste all of `supabase/seed.sql`, and press **Run**.
    This loads the 136 hymns and the About page. (Running it again changes nothing.)
-4. **Authentication → Sign In / Providers**: turn off **Allow new users to sign up**.
+4. Run each file in `supabase/migrations/` the same way, in name order. They add content
+   checks, edit history and tighter rules (see `SECURITY_AUDIT.md`). Each file says how to undo it.
+   When a new migration file appears in the repository later, run just that one.
+5. **Authentication → Sign In / Providers**: turn off **Allow new users to sign up**.
    Editors are added by hand, so nobody else can create an account.
 
 ## 2. Add editors
@@ -42,7 +45,7 @@ from **Project Settings → API Keys** into both files.
 
 The publishable key is meant to be public: the rules in `schema.sql` only let
 signed-in editors change anything. Never put the secret (service role) key in
-either file. `.env` is committed so EAS builds pick it up too.
+either file; the security workflow's secret scan would flag it. `.env` is committed so EAS builds pick it up too.
 
 ## 4. Run the website
 
@@ -81,6 +84,19 @@ Bose: Benshi bazajarajara bashaka ijambo ry’Imana baribure /2
 - `[Refrain] first words…` is a cue to sing the refrain.
 
 Hymns can be hidden from the app (**Hide from app**) but are never deleted.
+
+## Undoing an edit
+
+Every change to a hymn or page is kept in the `content_revisions` table: who made it, when, and the
+row before (`old_row`) and after (`new_row`). To undo one, open **Table Editor → content_revisions**,
+find the change (filter `row_key` by the hymn number, or `about`), and copy the old values back into
+the hymn on the website. The database rules don't allow anyone to change or delete this history.
+
+## Testing the database rules
+
+`supabase/tests/rls.test.sql` checks who can read and write what (anyone, a signed-in non-editor,
+an editor). GitHub runs it on every pull request on a throwaway database. Never run it against the
+real project.
 
 ## Good to know
 
