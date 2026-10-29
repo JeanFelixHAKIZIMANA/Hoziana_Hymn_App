@@ -10,7 +10,7 @@ afterwards (see "Live check" below). APKs are signed with the choir's EC key (CI
 
 | ID | Status | What changed |
 |---|---|---|
-| H-1 | **Deferred** (on hold) | Needs MFA in the website first, then an `aal2` rule. Waiting for your go-ahead. |
+| H-1 | **Fixed in two steps** (approved 2026-10-29) | Step 1, website: `admin/src/Mfa.tsx` asks for an authenticator code after the password, and sets one up the first time. Step 2, database: `supabase/migrations/20261029110000_require_mfa.sql` makes every editor-only rule require `aal2`. It refuses to run until every editor has a verified authenticator, so it can't cause a lockout. RLS tests check that an editor signed in with only a password can't write, read history or touch photos. |
 | H-2 | **Fixed** (app) / **Fixed** (DB) | `shared/hymn-validate.ts`; `src/data/content.ts`, `content-cache.ts`, `hymnal.ts`: bad rows skipped, bad saved copy dropped, startup falls back to the shipped book. `supabase/migrations/20261029100000_content_checks.sql`. |
 | M-1 | **Fixed** | `20261029100100_edit_history_and_policies.sql`: `content_revisions` history, insert/update policies only, no delete. How to undo an edit: `docs/content-website.md`. |
 | M-2 | **Fixed** | `plugins/with-release-signing.js` + `.github/workflows/android-apk.yml`: EC P-256 key from secrets, build fails without it and refuses a debug-signed APK. Steps: `docs/android-signing.md`. |
@@ -105,6 +105,7 @@ Nothing here can be done from code. None of these were changed by me.
 1. ~~Confirm **Allow new users to sign up** is off.~~ Done 2026-10-29 (screenshot from stark).
 2. ~~Leaked password protection~~: needs the Pro plan, accepted for now (L-3). Editors should use long, unique passwords from a password manager. Sign-ups, anonymous sign-ins and email confirmation were checked 2026-10-29 and are set correctly.
 3. ~~Authentication → Multi-Factor: make sure **TOTP** is enabled.~~ Done 2026-10-29 (stark).
+3b. Fix 2: after the website update is live, sign in once and set up your authenticator, then run `supabase/migrations/20261029110000_require_mfa.sql` in the SQL editor.
 4. Authentication → Attack Protection: consider **CAPTCHA** (Turnstile) on sign-in. Optional for a single editor; the built-in rate limits already apply.
 5. ~~Authentication → URL Configuration: Site URL `https://hoziana-hymn-app.vercel.app`, and remove any wildcard redirect URLs.~~ Done 2026-10-29 (stark; website sign-in still works).
 6. ~~Database → Settings: turn on **Enforce SSL**.~~ Done 2026-10-29 (stark). Network restrictions are optional (the phones need public access to the API, not the database port).

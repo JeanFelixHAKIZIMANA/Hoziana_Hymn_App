@@ -6,6 +6,7 @@ import { HymnEditor } from './HymnEditor';
 import { HymnList } from './HymnList';
 import { isStale, signOutIdle, useIdleSignOut } from './idle';
 import { Login } from './Login';
+import { MfaChallenge, MfaEnrol, useMfaLevel } from './Mfa';
 import { configured, supabase } from './supabase';
 
 // Routes live in the URL hash so the site can be hosted as static files anywhere.
@@ -38,16 +39,17 @@ export function App() {
   }, []);
 
   const minutesLeft = useIdleSignOut(Boolean(session));
+  const [mfa, recheckMfa] = useMfaLevel(Boolean(session), session?.access_token);
 
   useEffect(() => {
-    if (!session) return setEditor(undefined);
+    if (!session || mfa !== 'done') return setEditor(undefined);
     supabase
       .from('editors')
       .select('user_id')
       .eq('user_id', session.user.id)
       .maybeSingle()
       .then(({ data }) => setEditor(Boolean(data)));
-  }, [session]);
+  }, [session, mfa]);
 
   if (!configured) {
     return (
@@ -62,6 +64,9 @@ export function App() {
   }
   if (session === undefined) return null;
   if (!session) return <Login />;
+  if (mfa === 'checking') return null;
+  if (mfa === 'enrol') return <MfaEnrol onDone={recheckMfa} />;
+  if (mfa === 'challenge') return <MfaChallenge onDone={recheckMfa} />;
 
   const [section, id] = route;
   return (

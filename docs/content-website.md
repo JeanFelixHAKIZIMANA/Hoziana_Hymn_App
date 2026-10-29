@@ -18,6 +18,8 @@ in `admin/` is plain static files, hosted for free on [Vercel](https://vercel.co
 4. Run each file in `supabase/migrations/` the same way, in name order. They add content
    checks, edit history and tighter rules (see `SECURITY_AUDIT.md`). Each file says how to undo it.
    When a new migration file appears in the repository later, run just that one.
+   **Exception:** run `20261029110000_require_mfa.sql` only after every editor has set up sign-in
+   codes (section 2). It refuses to run before that, so it can't lock anyone out.
 5. **Authentication → Sign In / Providers**: turn off **Allow new users to sign up**.
    Editors are added by hand, so nobody else can create an account.
 
@@ -34,7 +36,15 @@ For each person who should edit:
    select id, email from auth.users where email = 'editor@example.com';
    ```
 
+3. Ask them to sign in to the website. The first time, it shows a QR code to scan with an
+   authenticator app (Google Authenticator, Microsoft Authenticator, 1Password) and asks for
+   the 6-digit code. After that, every sign-in needs the password and a code.
+
 To remove an editor, delete the row from `editors` (Table Editor) or delete the user.
+
+**Lost phone:** Authentication → Users → the editor → remove their MFA factor. They set up
+a new app at their next sign-in. If you are the only editor, do this from the Supabase
+dashboard, which has its own login.
 
 ## 3. Connect the app
 
