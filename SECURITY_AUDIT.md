@@ -18,7 +18,7 @@ afterwards (see "Live check" below). APKs are signed with the choir's EC key (CI
 | M-4 | **Fixed** | `20261029100200_media_bucket_limits.sql`: 5 MB, JPEG/PNG/WebP. Also lets editors see the bucket, so "remove old photo" actually deletes it. |
 | L-1 | **Fixed** | `20261029100300_tighten_grants.sql`. |
 | L-2 | **Fixed** | `(select auth.uid())`, per-operation policies, `updated_by` indexes. |
-| L-3 | **Manual** | Action 2 below. |
+| L-3 | **Accepted** (free plan) | Leaked-password protection needs the Supabase Pro plan. stark confirmed 2026-10-29: sign-ups off, anonymous sign-ins off, email confirmation on. Covered instead by long unique editor passwords and, later, MFA (H-1). Turn it on if the project moves to Pro. |
 | L-4 | **Fixed** (website) / **Fixed** (policy) | `admin/src/AboutEditor.tsx` re-encodes photos to JPEG (EXIF/GPS removed, max 2400 px); update policy has `with check`. |
 | L-5 | **Fixed** | `app.json`: `allowBackup: false`; `SYSTEM_ALERT_WINDOW` and storage permissions removed (checked in the generated manifest). |
 | L-6 | **Fixed** | `src/app/hymn/[number].tsx`: the back label from a link is shown only if it's one of the app's screen names. |
@@ -103,7 +103,7 @@ Nothing here can be done from code. None of these were changed by me.
 
 **Supabase dashboard** (project `iellhbnzlofqbjqdsmro`)
 1. Authentication → Sign In / Providers: confirm **Allow new users to sign up** is **off** (I couldn't read this setting from here).
-2. Authentication → Attack Protection: turn on **Leaked password protection** (flagged by the Security Advisor) and set minimum password length to 12+ with mixed characters.
+2. ~~Leaked password protection~~: needs the Pro plan, accepted for now (L-3). Editors should use long, unique passwords from a password manager. Sign-ups, anonymous sign-ins and email confirmation were checked 2026-10-29 and are set correctly.
 3. Authentication → Multi-Factor: make sure **TOTP** is enabled (needed for fix 2).
 4. Authentication → Attack Protection: consider **CAPTCHA** (Turnstile) on sign-in. Optional for a single editor; the built-in rate limits already apply.
 5. Authentication → URL Configuration: Site URL `https://hoziana-hymn-app.vercel.app`, and remove any wildcard redirect URLs.
