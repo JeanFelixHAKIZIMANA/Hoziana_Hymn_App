@@ -104,12 +104,12 @@ Nothing here can be done from code. None of these were changed by me.
 **Supabase dashboard** (project `iellhbnzlofqbjqdsmro`)
 1. ~~Confirm **Allow new users to sign up** is off.~~ Done 2026-10-29 (screenshot from stark).
 2. ~~Leaked password protection~~: needs the Pro plan, accepted for now (L-3). Editors should use long, unique passwords from a password manager. Sign-ups, anonymous sign-ins and email confirmation were checked 2026-10-29 and are set correctly.
-3. Authentication → Multi-Factor: make sure **TOTP** is enabled (needed for fix 2).
+3. ~~Authentication → Multi-Factor: make sure **TOTP** is enabled.~~ Done 2026-10-29 (stark).
 4. Authentication → Attack Protection: consider **CAPTCHA** (Turnstile) on sign-in. Optional for a single editor; the built-in rate limits already apply.
 5. ~~Authentication → URL Configuration: Site URL `https://hoziana-hymn-app.vercel.app`, and remove any wildcard redirect URLs.~~ Done 2026-10-29 (stark; website sign-in still works).
-6. Database → Settings: turn on **Enforce SSL**. Network restrictions are optional (the phones need public access to the API, not the database port).
+6. ~~Database → Settings: turn on **Enforce SSL**.~~ Done 2026-10-29 (stark). Network restrictions are optional (the phones need public access to the API, not the database port).
 7. Backups: the free plan has daily backups only, no PITR. The revision tables in fix 3 cover content recovery.
-8. Your Supabase **account**: turn on MFA for your login to supabase.com (Account → Security). Whoever holds this account holds everything.
+8. ~~Your Supabase **account**: turn on MFA.~~ Done 2026-10-29 (two authenticator apps, screenshot from stark).
 
 **Vercel**
 9. ~~Settings → Deployment Protection: turn on **Vercel Authentication** for preview deployments.~~ Done 2026-10-29 (stark).
