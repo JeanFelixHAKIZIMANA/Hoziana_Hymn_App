@@ -114,11 +114,11 @@ Nothing here can be done from code. None of these were changed by me.
 **Vercel**
 9. ~~Settings → Deployment Protection: turn on **Vercel Authentication** for preview deployments.~~ Done 2026-10-29 (stark).
 10. Settings → Environment Variables: nothing secret is needed today; if you ever add one, mark it **Sensitive** and scope it to Production.
-11. Your Vercel account: turn on MFA.
+11. ~~Your Vercel account: turn on MFA.~~ Done 2026-10-29 (stark).
 
 **GitHub**
-12. Your GitHub account: confirm 2FA is on (it controls the code, the website deploys and the APKs).
-13. Settings → Code security: turn on **Secret scanning** and **Push protection** (free for public repos), and **Dependabot alerts**.
+12. ~~Your GitHub account: confirm 2FA is on.~~ Done 2026-10-29 (stark).
+13. ~~Settings → Code security: turn on **Secret scanning**, **Push protection** and **Dependabot alerts**.~~ Done 2026-10-29 (stark).
 14. ~~Settings → Branches: protect `main` (require a pull request).~~ Done 2026-10-29 (verified: `main` shows as protected).
 15. ~~Create the release keystore and add it as repository secrets.~~ Done 2026-10-29 (see 0b). **Back the keystore up**: losing it means testers must reinstall again.
 
