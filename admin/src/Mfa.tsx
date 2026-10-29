@@ -112,7 +112,9 @@ export function MfaEnrol({ onDone }: { onDone: () => void }) {
       });
       if (!live) return;
       if (error || !data) return setError(error?.message ?? 'Couldn’t start the setup. Reload the page to try again.');
-      const qr = data.totp.qr_code.startsWith('data:') ? data.totp.qr_code : `data:image/svg+xml;utf-8,${data.totp.qr_code}`;
+      // supabase-js hands back the SVG behind an unencoded data: prefix; encode it so a '#' in the SVG can't cut it short.
+      const svg = data.totp.qr_code.replace(/^data:image\/svg\+xml;utf-8,/, '');
+      const qr = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
       setEnrolment({ factorId: data.id, qr, secret: data.totp.secret });
     })();
     return () => {
