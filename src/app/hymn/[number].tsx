@@ -69,6 +69,11 @@ function Reader({ hymn, from }: { hymn: Hymn; from?: string }) {
   const currentChip = Math.max(0, chipStanzas.findLastIndex((i) => i <= current));
   const verseTotal = verseCount(hymn);
   const lineHeight = lyricLineHeight(settings.lyricSize);
+  // Stable between renders so the memoized verse blocks don't re-render while scrolling.
+  const lyric = useMemo(
+    () => ({ size: settings.lyricSize, typeface: settings.typeface, showNumbers: settings.verseNumbers }),
+    [settings.lyricSize, settings.typeface, settings.verseNumbers],
+  );
 
   useEffect(() => {
     userActions.opened(hymn.number);
@@ -172,10 +177,7 @@ function Reader({ hymn, from }: { hymn: Hymn; from?: string }) {
         <View style={{ paddingTop: 28, gap: lineHeight }} onLayout={(e) => (versesTop.current = e.nativeEvent.layout.y)}>
           {hymn.stanzas.map((stanza, i) => (
             <View key={i} onLayout={(e) => (offsets.current[i] = e.nativeEvent.layout.y)}>
-              <VerseBlock
-                stanza={stanza}
-                lyric={{ size: settings.lyricSize, typeface: settings.typeface, showNumbers: settings.verseNumbers }}
-              />
+              <VerseBlock stanza={stanza} lyric={lyric} />
             </View>
           ))}
         </View>

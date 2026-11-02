@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Modal, Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -12,7 +13,9 @@ import { IconButton, SegmentedControl } from './controls';
 
 type LyricStyle = { size: LyricSize; typeface: Settings['typeface']; showNumbers: boolean };
 
-export function VerseBlock({ stanza, lyric }: { stanza: Stanza; lyric: LyricStyle }) {
+// Memoized: the reader re-renders as the current verse changes while scrolling, and the
+// lyrics themselves don't need to.
+export const VerseBlock = memo(function VerseBlock({ stanza, lyric }: { stanza: Stanza; lyric: LyricStyle }) {
   const refrain = stanza.type === 'refrain';
   const spoken = stanza.type === 'spoken';
   const lineHeight = lyricLineHeight(lyric.size);
@@ -84,7 +87,7 @@ export function VerseBlock({ stanza, lyric }: { stanza: Stanza; lyric: LyricStyl
       </View>
     </View>
   );
-}
+});
 
 export type VerseChipItem = { key: string; label: string; a11y: string };
 

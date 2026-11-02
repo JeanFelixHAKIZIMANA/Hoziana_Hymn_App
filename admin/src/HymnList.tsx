@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { SkeletonList } from './Skeleton';
 import { supabase, type HymnRow } from './supabase';
 
 type Item = Pick<HymnRow, 'number' | 'title' | 'volume' | 'hidden' | 'updated_at'>;
@@ -42,7 +43,8 @@ export function HymnList() {
         autoFocus
       />
       {error ? <p className="error">{error}</p> : null}
-      <ul className="card list">
+      {!items && !error ? <SkeletonList /> : null}
+      <ul className="card list" hidden={!items}>
         {shown?.map((h) => (
           <li key={h.number}>
             <a href={`#/hymns/${h.number}`}>
