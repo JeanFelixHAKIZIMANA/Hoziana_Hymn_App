@@ -45,12 +45,25 @@ const toHymn = (r: HymnRow): Hymn => ({
   year: r.year,
 });
 
+// On a weak connection a request can hang for minutes; give up and try again on the next launch.
+const TIMEOUT_MS = 15_000;
+
 async function get<T>(path: string): Promise<T> {
-  // A publishable key goes in the apikey header only (it is not a JWT).
-  const res = await fetch(`${url}/rest/v1/${path}`, { headers: { apikey: anonKey! } });
-  if (!res.ok) throw new Error(`${res.status} ${path}`);
-  return res.json() as Promise<T>;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+  try {
+    // A publishable key goes in the apikey header only (it is not a JWT).
+    const res = await fetch(`${url}/rest/v1/${path}`, { headers: { apikey: anonKey! }, signal: controller.signal });
+    if (!res.ok) throw new Error(`${res.status} ${path}`);
+    return (await res.json()) as T;
+  } finally {
+    clearTimeout(timer);
+  }
 }
+
+// Only the columns the app uses (not who made the edit, for example).
+const HYMN_COLUMNS = 'number,title,key,scripture,volume,volume_year,author,year,credit,stanzas,hidden,updated_at';
+const PAGE_COLUMNS = 'slug,title,body,image_path,updated_at';
 
 // Photos live in the public "media" bucket; anything that isn't a plain file path there is ignored.
 const mediaUrl = (path: unknown) =>
@@ -68,8 +81,8 @@ export async function syncContent() {
   try {
     const since = cache.since ? `&updated_at=gt.${encodeURIComponent(cache.since)}` : '';
     const [rows, pages] = await Promise.all([
-      get<HymnRow[]>(`hymns?select=*&order=updated_at.asc${since}`),
-      get<PageRow[]>('pages?select=*'),
+      get<HymnRow[]>(`hymns?select=${HYMN_COLUMNS}&order=updated_at.asc${since}`),
+      get<PageRow[]>(`pages?select=${PAGE_COLUMNS}`),
     ]);
     const next: ContentCache = { hymns: { ...cache.hymns }, pages: {}, since: cache.since };
     for (const r of Array.isArray(rows) ? rows : []) {

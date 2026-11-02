@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 
+import { SkeletonEditor } from './Skeleton';
 import { mediaUrl, supabase, type PageRow } from './supabase';
 
 const PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
-const MAX_SIDE = 2400;
+// Wide enough for a sharp photo on the largest phones (about 1300 px across) with room to spare.
+const MAX_SIDE = 1600;
 
-// Redraws the photo as a fresh JPEG: drops camera metadata such as GPS location (the photo is
+// Redraws the photo as a fresh WebP (JPEG on browsers that can't make WebP): drops camera metadata such as GPS location (the photo is
 // public), applies the camera's rotation, and scales very large photos down.
 async function reencode(file: File): Promise<Blob> {
   const bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });
@@ -18,9 +20,15 @@ async function reencode(file: File): Promise<Blob> {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
   bitmap.close();
-  return new Promise((resolve, reject) =>
-    canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('encode failed'))), 'image/jpeg', 0.88),
-  );
+  const encode = (type: string, quality: number) =>
+    new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, type, quality));
+  // WebP is usually 25–35% smaller than JPEG at the same quality, so the photo reaches phones sooner.
+  // A browser that can't encode WebP hands back a PNG instead, so check what came out.
+  const webp = await encode('image/webp', 0.82);
+  if (webp?.type === 'image/webp') return webp;
+  const jpeg = await encode('image/jpeg', 0.85);
+  if (!jpeg) throw new Error('encode failed');
+  return jpeg;
 }
 
 export function AboutEditor() {
@@ -43,7 +51,7 @@ export function AboutEditor() {
       });
   }, []);
 
-  if (!page) return <main>{status ? <p className="error">{status.text}</p> : <p className="muted">Loading…</p>}</main>;
+  if (!page) return status ? <main><p className="error">{status.text}</p></main> : <SkeletonEditor />;
 
   const write = async (next: PageRow) => {
     setBusy(true);
@@ -74,8 +82,12 @@ export function AboutEditor() {
     }
     // A new name each time, so phones never show an old cached photo.
     const name = file.name.toLowerCase().replace(/\.[a-z0-9]+$/, '').replace(/[^a-z0-9]+/g, '-').slice(0, 60);
-    const path = `about/${Date.now()}-${name || 'photo'}.jpg`;
-    const { error } = await supabase.storage.from('media').upload(path, photo, { contentType: 'image/jpeg' });
+    const ext = photo.type === 'image/webp' ? 'webp' : 'jpg';
+    const path = `about/${Date.now()}-${name || 'photo'}.${ext}`;
+    // The name never changes once uploaded, so phones and browsers may keep the file for a year.
+    const { error } = await supabase.storage
+      .from('media')
+      .upload(path, photo, { contentType: photo.type, cacheControl: '31536000' });
     setBusy(false);
     if (error) return setStatus({ kind: 'error', text: error.message });
     const old = page.image_path;

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { stanzasToText, textToStanzas } from '../../shared/hymn-text';
 import { Preview } from './Preview';
+import { SkeletonEditor } from './Skeleton';
 import { supabase, type HymnRow } from './supabase';
 
 type Fields = Omit<HymnRow, 'stanzas' | 'updated_at'> & { lyrics: string };
@@ -44,12 +45,12 @@ export function HymnEditor({ number }: { number: number | null }) {
     }
     supabase
       .from('hymns')
-      .select('*')
+      .select('number, title, key, scripture, volume, volume_year, author, year, credit, stanzas, hidden')
       .eq('number', number)
       .single()
       .then(({ data, error }) => {
         if (error) return setStatus({ kind: 'error', text: error.message });
-        const { stanzas, updated_at: _, ...rest } = data as HymnRow;
+        const { stanzas, ...rest } = data as HymnRow;
         const f = { ...rest, lyrics: stanzasToText(stanzas) };
         setFields(f);
         setSaved(JSON.stringify(f));
@@ -66,7 +67,7 @@ export function HymnEditor({ number }: { number: number | null }) {
     return () => removeEventListener('beforeunload', warn);
   }, [dirty]);
 
-  if (!fields) return <main>{status ? <p className="error">{status.text}</p> : <p className="muted">Loading…</p>}</main>;
+  if (!fields) return status ? <main><p className="error">{status.text}</p></main> : <SkeletonEditor />;
 
   const set = <K extends keyof Fields>(key: K, value: Fields[K]) => setFields({ ...fields, [key]: value });
   const text = (key: 'title' | 'key' | 'scripture' | 'volume' | 'author' | 'credit') => ({

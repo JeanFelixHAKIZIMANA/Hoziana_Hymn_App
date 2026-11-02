@@ -1,13 +1,16 @@
 import type { Session } from '@supabase/supabase-js';
-import { useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 
-import { AboutEditor } from './AboutEditor';
-import { HymnEditor } from './HymnEditor';
 import { HymnList } from './HymnList';
 import { isStale, signOutIdle, useIdleSignOut } from './idle';
 import { Login } from './Login';
 import { MfaChallenge, MfaEnrol, useMfaLevel } from './Mfa';
+import { SkeletonEditor } from './Skeleton';
 import { configured, supabase } from './supabase';
+
+// The editors are downloaded only when opened, so the hymn list (the first page) loads less code.
+const HymnEditor = lazy(() => import('./HymnEditor').then((m) => ({ default: m.HymnEditor })));
+const AboutEditor = lazy(() => import('./AboutEditor').then((m) => ({ default: m.AboutEditor })));
 
 // Routes live in the URL hash so the site can be hosted as static files anywhere.
 function useRoute() {
@@ -104,9 +107,13 @@ export function App() {
           </p>
         </main>
       ) : editor === undefined ? null : section === 'about' ? (
-        <AboutEditor />
+        <Suspense fallback={<SkeletonEditor />}>
+          <AboutEditor />
+        </Suspense>
       ) : section === 'hymns' && id ? (
-        <HymnEditor key={id} number={id === 'new' ? null : Number(id)} />
+        <Suspense fallback={<SkeletonEditor />}>
+          <HymnEditor key={id} number={id === 'new' ? null : Number(id)} />
+        </Suspense>
       ) : (
         <HymnList />
       )}

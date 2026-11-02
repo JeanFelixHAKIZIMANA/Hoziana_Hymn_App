@@ -1,9 +1,9 @@
 import { router } from 'expo-router';
-import { useMemo, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { useDeferredValue, useMemo, useState } from 'react';
+import { SectionList, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { getPlaylist, playlistOf, playlists, searchHymns, type Hymn } from '@/data/hymnal';
+import { getPlaylist, playlistOf, playlists, searchHymns, type Hymn, type LyricMatch } from '@/data/hymnal';
 import {
   ChipRow,
   GroupLabel,
@@ -19,24 +19,41 @@ import { t } from '@/i18n';
 
 const ALL = 'all';
 
-const open = (hymn: Hymn) => router.push({ pathname: '/hymn/[number]', params: { number: hymn.number, from: t.search.title } });
+const open = (number: number) => router.push({ pathname: '/hymn/[number]', params: { number, from: t.search.title } });
+
+const volumeName = (hymn: Hymn) => {
+  const p = playlistOf(hymn);
+  return p ? t.playlists.volume(p.label) : undefined;
+};
+
+const RowGap = () => <View style={{ height: 2 }} />;
+
+type Section =
+  | { key: 'titles'; title: string; data: Hymn[] }
+  | { key: 'lyrics'; title: string; data: LyricMatch[] };
 
 export default function Search() {
   const insets = useSafeAreaInsets();
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<string>(ALL);
+  // The field updates on every key press; the results catch up when the phone has a moment,
+  // so typing never waits on the lyric search.
+  const deferredQuery = useDeferredValue(query);
 
   const results = useMemo(
-    () => searchHymns(query, filter === ALL ? undefined : getPlaylist(filter)),
-    [query, filter],
+    () => searchHymns(deferredQuery, filter === ALL ? undefined : getPlaylist(filter)),
+    [deferredQuery, filter],
   );
-  const empty = !query.trim();
+  const empty = !deferredQuery.trim();
   const nothing = !empty && results.titles.length === 0 && results.lyrics.length === 0;
 
-  const volumeName = (hymn: Hymn) => {
-    const p = playlistOf(hymn);
-    return p ? t.playlists.volume(p.label) : undefined;
-  };
+  const sections = useMemo(() => {
+    const list: Section[] = [];
+    if (results.titles.length)
+      list.push({ key: 'titles', title: empty ? t.search.allHymns : t.search.titlesAndNumbers, data: results.titles });
+    if (results.lyrics.length) list.push({ key: 'lyrics', title: t.search.inLyrics, data: results.lyrics });
+    return list;
+  }, [results, empty]);
 
   return (
     <Screen>
@@ -50,40 +67,41 @@ export default function Search() {
         />
       </View>
 
-      <ScrollView
+      {/* Only the rows on screen are drawn, so the full list of hymns opens instantly. */}
+      <SectionList<Hymn | LyricMatch, Section>
+        sections={sections}
+        keyExtractor={(item) => String('hymn' in item ? item.hymn.number : item.number)}
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
-        contentContainerStyle={{ paddingTop: 4, paddingHorizontal: 20, paddingBottom: TAB_BAR_CLEARANCE, gap: 22 }}
-      >
-        {nothing ? (
-          <View style={{ paddingVertical: 48, paddingHorizontal: 12, gap: 8, alignItems: 'center' }}>
-            <Text variant="section" style={{ textAlign: 'center' }}>
-              {t.search.noResults(query.trim())}
-            </Text>
-            <Text variant="body" color="textSecondary" style={{ textAlign: 'center' }}>
-              {t.search.noResultsHint}
-            </Text>
+        stickySectionHeadersEnabled={false}
+        initialNumToRender={14}
+        ItemSeparatorComponent={RowGap}
+        contentContainerStyle={{ paddingTop: 4, paddingHorizontal: 20, paddingBottom: TAB_BAR_CLEARANCE }}
+        renderSectionHeader={({ section }) => (
+          <View style={{ paddingTop: section.key === 'lyrics' && results.titles.length ? 22 : 0, paddingBottom: 2 }}>
+            <GroupLabel>{section.title}</GroupLabel>
           </View>
-        ) : null}
-
-        {results.titles.length > 0 ? (
-          <View style={{ gap: 2 }}>
-            <GroupLabel>{empty ? t.search.allHymns : t.search.titlesAndNumbers}</GroupLabel>
-            {results.titles.map((h) => (
-              <SongRow key={h.number} number={h.number} title={h.title} meta={volumeName(h)} onPress={() => open(h)} />
-            ))}
-          </View>
-        ) : null}
-
-        {results.lyrics.length > 0 ? (
-          <View style={{ gap: 2 }}>
-            <GroupLabel>{t.search.inLyrics}</GroupLabel>
-            {results.lyrics.map((m) => (
-              <LyricMatchRow key={m.hymn.number} number={m.hymn.number} title={m.hymn.title} snippet={m.line} onPress={() => open(m.hymn)} />
-            ))}
-          </View>
-        ) : null}
-      </ScrollView>
+        )}
+        renderItem={({ item }) =>
+          'hymn' in item ? (
+            <LyricMatchRow number={item.hymn.number} title={item.hymn.title} snippet={item.line} onPress={open} />
+          ) : (
+            <SongRow number={item.number} title={item.title} meta={volumeName(item)} onPress={open} />
+          )
+        }
+        ListEmptyComponent={
+          nothing ? (
+            <View style={{ paddingVertical: 48, paddingHorizontal: 12, gap: 8, alignItems: 'center' }}>
+              <Text variant="section" style={{ textAlign: 'center' }}>
+                {t.search.noResults(deferredQuery.trim())}
+              </Text>
+              <Text variant="body" color="textSecondary" style={{ textAlign: 'center' }}>
+                {t.search.noResultsHint}
+              </Text>
+            </View>
+          ) : undefined
+        }
+      />
     </Screen>
   );
 }

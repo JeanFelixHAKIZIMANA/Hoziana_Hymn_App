@@ -135,3 +135,10 @@ label.button { flex-direction: row; }
 .login > .small { margin-top: 16px; }
 .qr { display: block; margin: 0 auto; background: #fff; border-radius: 8px; padding: 8px; }
 .secret { display: block; word-break: break-all; font-size: 15px; letter-spacing: 1px; user-select: all; }
+
+/* Loading placeholders (Skeleton.tsx). */
+.skeleton { display: block; height: 14px; border-radius: 7px; background: var(--field); animation: skeleton-pulse 1.4s ease-in-out infinite; }
+.skeleton-row { display: flex; align-items: center; gap: 14px; padding: 15px 16px; }
+.skeleton-form { display: flex; flex-direction: column; gap: 18px; padding: 20px; }
+@keyframes skeleton-pulse { 50% { opacity: 0.45; } }
+@media (prefers-reduced-motion: reduce) { .skeleton { animation: none; } }

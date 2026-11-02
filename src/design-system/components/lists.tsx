@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import { Glass, Icon, Text } from '../primitives';
@@ -51,14 +52,15 @@ type RowProps = {
   meta?: string;
   chevron?: boolean;
   minHeight?: number;
-  onPress: () => void;
+  // Receives the hymn number, so lists can pass one stable function and rows can skip re-rendering.
+  onPress: (number: number) => void;
 };
 
-export function SongRow({ number, title, meta, chevron = false, minHeight = 60, onPress }: RowProps) {
+export const SongRow = memo(function SongRow({ number, title, meta, chevron = false, minHeight = 60, onPress }: RowProps) {
   const { colors } = useTheme();
   return (
     <Pressable
-      onPress={onPress}
+      onPress={() => onPress(number)}
       accessibilityRole="button"
       accessibilityLabel={`${number}, ${title}`}
       style={({ pressed }) => [styles.row, { minHeight, borderBottomColor: colors.glassStroke, opacity: pressed ? 0.6 : 1 }]}
@@ -77,13 +79,15 @@ export function SongRow({ number, title, meta, chevron = false, minHeight = 60, 
       {chevron ? <Icon name="chevron-right" size={18} color="iconFaint" /> : null}
     </Pressable>
   );
-}
+});
 
-export function LyricMatchRow({ number, title, snippet, onPress }: { number: number; title: string; snippet: string; onPress: () => void }) {
+type LyricMatchProps = { number: number; title: string; snippet: string; onPress: (number: number) => void };
+
+export const LyricMatchRow = memo(function LyricMatchRow({ number, title, snippet, onPress }: LyricMatchProps) {
   const { colors } = useTheme();
   return (
     <Pressable
-      onPress={onPress}
+      onPress={() => onPress(number)}
       accessibilityRole="button"
       style={({ pressed }) => [
         styles.row,
@@ -101,7 +105,7 @@ export function LyricMatchRow({ number, title, snippet, onPress }: { number: num
       </View>
     </Pressable>
   );
-}
+});
 
 export function PlaylistRow({ letter, name, meta, onPress }: { letter: string; name: string; meta: string; onPress: () => void }) {
   const { colors } = useTheme();

@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { FlatList, View } from 'react-native';
 
 import { firstLine, getPlaylist } from '@/data/hymnal';
@@ -18,8 +18,13 @@ export default function PlaylistScreen() {
     return order === 'title' ? list.sort((a, b) => a.title.localeCompare(b.title)) : list;
   }, [playlist, order]);
 
+  const name = playlist ? t.playlists.volume(playlist.label) : '';
+  const open = useCallback(
+    (number: number) => router.push({ pathname: '/hymn/[number]', params: { number, from: name } }),
+    [name],
+  );
+
   if (!playlist) return null;
-  const name = t.playlists.volume(playlist.label);
 
   return (
     <Screen>
@@ -47,7 +52,7 @@ export default function PlaylistScreen() {
             title={item.title}
             meta={firstLine(item)}
             minHeight={64}
-            onPress={() => router.push({ pathname: '/hymn/[number]', params: { number: item.number, from: name } })}
+            onPress={open}
           />
         )}
       />

@@ -17,6 +17,8 @@ import {
 import { t } from '@/i18n';
 import { relativeTime } from '@/utils/relative-time';
 
+const openHymn = (number: number) => router.push({ pathname: '/hymn/[number]', params: { number } });
+
 export default function Home() {
   const insets = useSafeAreaInsets();
   const position = useUserState((s) => s.position);
@@ -74,7 +76,7 @@ export default function Home() {
                   number={hymn.number}
                   title={hymn.title}
                   meta={[playlist && t.playlists.volume(playlist.label), relativeTime(r.openedAt)].filter(Boolean).join(' · ')}
-                  onPress={() => router.push({ pathname: '/hymn/[number]', params: { number: hymn.number } })}
+                  onPress={openHymn}
                 />
               );
             })
