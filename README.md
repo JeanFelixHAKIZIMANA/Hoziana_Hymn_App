@@ -35,6 +35,11 @@ Store builds are made in the cloud with EAS (`npx eas-cli@latest build`), so no 
 | `shared/` | Hymn types and the lyrics text format, used by both the app and the website |
 | `supabase/` | Database tables, access rules and the starting data |
 | `design/` | Source tokens and the latest hymnal conversion report |
+| `store/google-play/` | Play Store icon, feature graphic and screenshots |
+
+## Google Play
+
+How to build the `.aab`, set up the Play Console, and fill in the listing and policy forms: [docs/play-store.md](docs/play-store.md).
 
 ## Updating content
 
