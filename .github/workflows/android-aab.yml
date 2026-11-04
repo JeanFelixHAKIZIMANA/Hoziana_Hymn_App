@@ -1,0 +1,107 @@
+# Builds the Android App Bundle (.aab) to upload to Google Play. Run it by hand from the
+# Actions tab ("Android Play bundle" → "Run workflow"); it does not run on every push.
+#
+# The bundle is signed with the Hoziana release key from the repository secrets (the same key as
+# the test APKs). On Google Play this key is the *upload key*: Play App Signing keeps the key that
+# signs the app on people's phones. See docs/play-store.md.
+name: Android Play bundle
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-aab
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v6
+
+      - name: Check the signing key is set up
+        env:
+          HOZIANA_KEYSTORE_BASE64: ${{ secrets.HOZIANA_KEYSTORE_BASE64 }}
+          HOZIANA_KEYSTORE_PASSWORD: ${{ secrets.HOZIANA_KEYSTORE_PASSWORD }}
+          HOZIANA_KEY_ALIAS: ${{ secrets.HOZIANA_KEY_ALIAS }}
+        run: |
+          if [ -z "$HOZIANA_KEYSTORE_BASE64" ] || [ -z "$HOZIANA_KEYSTORE_PASSWORD" ] || [ -z "$HOZIANA_KEY_ALIAS" ]; then
+            echo "::error::Add the HOZIANA_KEYSTORE_BASE64, HOZIANA_KEYSTORE_PASSWORD and HOZIANA_KEY_ALIAS repository secrets (see docs/android-signing.md)."
+            exit 1
+          fi
+
+      - run: npm ci
+
+      - run: npx expo prebuild --platform android --no-install
+        env:
+          CI: 1
+
+      # Google Play refuses a bundle whose versionCode it has already seen, so every run gets a
+      # higher one: 100 + this workflow's run number (1st run = 101, 2nd = 102, ...).
+      # The version people see (versionName, e.g. 1.0.0) comes from "version" in app.json.
+      - name: Set the version code
+        run: |
+          CODE=$((100 + GITHUB_RUN_NUMBER))
+          sed -i -E "s/versionCode [0-9]+/versionCode $CODE/" android/app/build.gradle
+          grep -q "versionCode $CODE" android/app/build.gradle || { echo "::error::Couldn't set versionCode."; exit 1; }
+          echo "VERSION_CODE=$CODE" >> "$GITHUB_ENV"
+          echo "versionCode $CODE"
+
+      # All four CPU types; Google Play hands each phone only the parts it needs.
+      - name: Build the bundle
+        working-directory: android
+        env:
+          HOZIANA_KEYSTORE_BASE64: ${{ secrets.HOZIANA_KEYSTORE_BASE64 }}
+          HOZIANA_KEYSTORE_PASSWORD: ${{ secrets.HOZIANA_KEYSTORE_PASSWORD }}
+          HOZIANA_KEY_ALIAS: ${{ secrets.HOZIANA_KEY_ALIAS }}
+        run: |
+          export HOZIANA_KEYSTORE_FILE="$RUNNER_TEMP/hoziana-release.p12"
+          echo "$HOZIANA_KEYSTORE_BASE64" | base64 -d > "$HOZIANA_KEYSTORE_FILE"
+          ./gradlew bundleRelease --no-daemon
+          rm -f "$HOZIANA_KEYSTORE_FILE"
+
+      # Refuse to hand over a bundle signed with the shared debug key; Play would reject it.
+      - name: Check the bundle signature
+        run: |
+          AAB=android/app/build/outputs/bundle/release/app-release.aab
+          if ! CERT=$(jarsigner -verify -verbose:summary -certs "$AAB" 2>&1); then
+            echo "$CERT" | tail -20
+            echo "::error::jarsigner could not verify the bundle."
+            exit 1
+          fi
+          echo "$CERT" | grep -E "jar verified|Signed by|CN=" | sort -u | head -10
+          if ! echo "$CERT" | grep -q "jar verified"; then
+            echo "::error::The bundle is not signed."
+            exit 1
+          fi
+          if echo "$CERT" | grep -q "CN=Android Debug"; then
+            echo "::error::The bundle is signed with the debug key."
+            exit 1
+          fi
+
+      - name: Name the bundle
+        run: |
+          mkdir -p out
+          cp android/app/build/outputs/bundle/release/app-release.aab "out/hoziana-${VERSION_CODE}.aab"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: hoziana-play-bundle-${{ env.VERSION_CODE }}
+          path: out/*.aab
+          retention-days: 30

@@ -1,0 +1,47 @@
+/* Served as a separate file because the site's Content-Security-Policy blocks inline styles. */
+:root {
+  color-scheme: light dark;
+  --bg: #f8f6f1;
+  --text: #1f1d1a;
+  --muted: #6b665e;
+  --link: #3b3fa8;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141312;
+    --text: #ece8e1;
+    --muted: #a39d93;
+    --link: #a9acf5;
+  }
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 17px/1.6 Georgia, 'Times New Roman', serif;
+}
+main {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 40px 20px 64px;
+}
+h1 {
+  font-size: 30px;
+  line-height: 1.2;
+  margin: 0 0 4px;
+}
+h2 {
+  font-size: 20px;
+  margin: 32px 0 8px;
+}
+.meta {
+  color: var(--muted);
+  font-size: 15px;
+  margin: 0 0 24px;
+}
+a {
+  color: var(--link);
+}
+ul {
+  padding-left: 22px;
+}
