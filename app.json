@@ -48,6 +48,7 @@
         }
       ],
       "./plugins/with-release-signing",
+      "./plugins/with-network-security",
       [
         "expo-build-properties",
         {
